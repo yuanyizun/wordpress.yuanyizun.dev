@@ -198,7 +198,7 @@ function still_cup_shop_toolbar(): void {
 		),
 	);
 
-	foreach ( array( 'Mugs', 'Cups', 'Tumblers' ) as $name ) {
+	foreach ( array( 'Mugs', 'Tumblers' ) as $name ) {
 		$term = get_term_by( 'name', $name, 'product_cat' );
 		$url  = $shop_url;
 		$slug = sanitize_title( $name );
@@ -226,7 +226,7 @@ function still_cup_shop_toolbar(): void {
 	$orderby      = isset( $_GET['orderby'] ) ? wc_clean( wp_unslash( (string) $_GET['orderby'] ) ) : 'menu_order'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	?>
 	<div class="grid gap-4 desktop:grid-cols-[minmax(0,480px)_260px] desktop:justify-between desktop:items-center mb-4 desktop:mb-5">
-		<div class="flex flex-wrap items-center gap-0 min-h-[52px] px-5 border border-border bg-surface" role="navigation" aria-label="<?php esc_attr_e( 'Product categories', 'still-cup' ); ?>">
+		<div class="flex flex-wrap items-center gap-0 min-h-[52px] px-5 bg-surface" role="navigation" aria-label="<?php esc_attr_e( 'Product categories', 'still-cup' ); ?>">
 			<?php
 			$filter_i = 0;
 			foreach ( $cats as $cat ) :
@@ -254,7 +254,7 @@ function still_cup_shop_toolbar(): void {
 			<?php endif; ?>
 		</div>
 
-		<form class="relative flex items-stretch min-h-[52px] border border-border bg-surface" method="get" action="">
+		<form class="relative flex items-stretch min-h-[52px] bg-surface" method="get" action="">
 			<label class="sr-only" for="sc-orderby"><?php esc_html_e( 'Sort', 'still-cup' ); ?></label>
 			<select name="orderby" id="sc-orderby" class="w-full min-h-[52px] px-5 border-0 bg-transparent font-body text-[15px] text-primary" onchange="this.form.submit()">
 				<?php
@@ -404,10 +404,10 @@ function still_cup_shop_intro(): void {
 		return;
 	}
 	?>
-	<header class="woocommerce-products-header mb-7">
-		<p class="m-0 mb-3 text-[12px] tracking-[0.02em]"><?php esc_html_e( 'The collection', 'still-cup' ); ?></p>
-		<h1 class="woocommerce-products-header__title page-title m-0 mb-3 font-display text-[clamp(2rem,5vw,3.875rem)] font-normal leading-[1.2]"><?php woocommerce_page_title(); ?></h1>
-		<p class="m-0 text-base desktop:text-[18px] max-w-[40rem]"><?php esc_html_e( 'A small collection, made for everyday moments.', 'still-cup' ); ?></p>
+	<header class="woocommerce-products-header mb-8">
+		<p class="m-0 mb-3 text-[12px] uppercase leading-[1.25]"><?php esc_html_e( 'The collection', 'still-cup' ); ?></p>
+		<h1 class="woocommerce-products-header__title page-title m-0 mb-3 font-display text-[40px] desktop:text-[62px] font-normal leading-[1.25]"><?php woocommerce_page_title(); ?></h1>
+		<p class="m-0 text-[16px] desktop:text-[18px] leading-[1.25] max-w-[40rem]"><?php esc_html_e( 'A small collection, made for everyday moments.', 'still-cup' ); ?></p>
 	</header>
 	<?php
 }
@@ -442,7 +442,7 @@ function still_cup_product_collection_label(): void {
 	if ( $label === '' ) {
 		return;
 	}
-	echo '<p class="m-0 mb-2 text-[12px] tracking-[0.06em] uppercase">' . esc_html( $label ) . '</p>';
+	echo '<p class="hidden desktop:block m-0 mb-2 text-[12px] uppercase leading-[1.25]">' . esc_html( $label ) . '</p>';
 }
 add_action( 'woocommerce_single_product_summary', 'still_cup_product_collection_label', 4 );
 
@@ -474,7 +474,7 @@ function still_cup_product_collection_text( WC_Product $product ): string {
  * Photo caption under gallery.
  */
 function still_cup_product_photo_note(): void {
-	echo '<p class="m-0 mt-3 text-[13px]">' . esc_html__( 'Photography reflects the product shape, texture and tone.', 'still-cup' ) . '</p>';
+	echo '<p class="hidden desktop:block m-0 mt-3 text-[13px] leading-[1.25]">' . esc_html__( 'Photography reference: final product images supplied by owner.', 'still-cup' ) . '</p>';
 }
 add_action( 'woocommerce_before_single_product_summary', 'still_cup_product_photo_note', 25 );
 
@@ -482,7 +482,7 @@ add_action( 'woocommerce_before_single_product_summary', 'still_cup_product_phot
  * Shipping policy under add-to-bag.
  */
 function still_cup_product_shipping_note(): void {
-	echo '<p class="m-0 mt-3 text-[14px]">' . esc_html__( '$9.95 standard shipping · free over $100. Australia-wide.', 'still-cup' ) . '</p>';
+	echo '<p class="m-0 mt-4 text-[14px] leading-[1.25]">' . esc_html__( '$9.95 shipping · Free over $100', 'still-cup' ) . '<span class="hidden desktop:inline"><br>' . esc_html__( 'Australia-wide delivery', 'still-cup' ) . '</span></p>';
 }
 add_action( 'woocommerce_single_product_summary', 'still_cup_product_shipping_note', 35 );
 
@@ -496,7 +496,7 @@ function still_cup_product_stock_message(): void {
 	}
 	echo '<p class="m-0 my-3 text-[14px]">' . esc_html__( 'In stock · Ready to dispatch in 2–3 business days.', 'still-cup' ) . '</p>';
 }
-add_action( 'woocommerce_single_product_summary', 'still_cup_product_stock_message', 25 );
+add_action( 'woocommerce_before_add_to_cart_button', 'still_cup_product_stock_message', 5 );
 
 /**
  * Add to bag button label.
@@ -693,3 +693,234 @@ function still_cup_add_to_cart_message_html( string $message, $products, bool $s
 	);
 }
 add_filter( 'wc_add_to_cart_message_html', 'still_cup_add_to_cart_message_html', 10, 3 );
+
+/**
+ * Quantity stepper buttons matching the static product and bag controls.
+ */
+function still_cup_quantity_decrease_button(): void {
+	echo '<button type="button" class="sc-qty-dec inline-flex items-center justify-center w-8 h-10 border-0 bg-transparent p-0 text-primary font-body text-[15px] cursor-pointer" aria-label="' . esc_attr__( 'Decrease quantity', 'still-cup' ) . '">−</button>';
+}
+function still_cup_quantity_increase_button(): void {
+	echo '<button type="button" class="sc-qty-inc inline-flex items-center justify-center w-8 h-10 border-0 bg-transparent p-0 text-primary font-body text-[15px] cursor-pointer" aria-label="' . esc_attr__( 'Increase quantity', 'still-cup' ) . '">+</button>';
+}
+add_action( 'woocommerce_before_quantity_input_field', 'still_cup_quantity_decrease_button' );
+add_action( 'woocommerce_after_quantity_input_field', 'still_cup_quantity_increase_button' );
+
+/**
+ * Checkout field order and labels from the static checkout screens.
+ *
+ * @param array<string, array<string, array<string, mixed>>> $fields Fields.
+ * @return array<string, array<string, array<string, mixed>>>
+ */
+function still_cup_checkout_fields( array $fields ): array {
+	$billing = array(
+		'billing_email'      => array(
+			'priority' => 5,
+			'label'    => __( 'Email address', 'still-cup' ),
+			'class'    => array( 'form-row-wide', 'sc-field-email' ),
+		),
+		'billing_first_name' => array(
+			'priority' => 10,
+			'class'    => array( 'form-row-first' ),
+		),
+		'billing_last_name'  => array(
+			'priority' => 20,
+			'class'    => array( 'form-row-last' ),
+		),
+		'billing_address_1'  => array(
+			'priority' => 30,
+			'label'    => __( 'Street address', 'still-cup' ),
+			'class'    => array( 'form-row-wide' ),
+		),
+		'billing_city'       => array(
+			'priority' => 40,
+			'label'    => __( 'Suburb / city', 'still-cup' ),
+			'class'    => array( 'form-row-first' ),
+		),
+		'billing_state'      => array(
+			'priority' => 50,
+			'label'    => __( 'State', 'still-cup' ),
+			'class'    => array( 'sc-field-state' ),
+		),
+		'billing_postcode'   => array(
+			'priority' => 60,
+			'label'    => __( 'Postcode', 'still-cup' ),
+			'class'    => array( 'sc-field-postcode' ),
+		),
+	);
+
+	foreach ( $billing as $key => $changes ) {
+		if ( ! isset( $fields['billing'][ $key ] ) ) {
+			continue;
+		}
+		if ( isset( $changes['class'] ) ) {
+			$classes = isset( $fields['billing'][ $key ]['class'] ) ? (array) $fields['billing'][ $key ]['class'] : array();
+			$classes = array_values(
+				array_diff(
+					$classes,
+					array( 'form-row-first', 'form-row-last', 'form-row-wide' )
+				)
+			);
+			$fields['billing'][ $key ]['class'] = array_values( array_unique( array_merge( $classes, $changes['class'] ) ) );
+			unset( $changes['class'] );
+		}
+		$fields['billing'][ $key ] = array_merge( $fields['billing'][ $key ], $changes );
+	}
+
+	foreach ( array( 'billing_company', 'billing_address_2', 'billing_phone' ) as $optional ) {
+		if ( isset( $fields['billing'][ $optional ] ) && empty( $fields['billing'][ $optional ]['required'] ) ) {
+			$fields['billing'][ $optional ]['class'][] = 'sc-field-extra';
+		}
+	}
+
+	if ( isset( $fields['billing']['billing_country'] ) ) {
+		$fields['billing']['billing_country']['priority'] = 70;
+		$country_classes = isset( $fields['billing']['billing_country']['class'] ) ? (array) $fields['billing']['billing_country']['class'] : array();
+		$country_classes = array_values( array_diff( $country_classes, array( 'form-row-first', 'form-row-last', 'form-row-wide' ) ) );
+		$fields['billing']['billing_country']['class'] = array_values( array_unique( array_merge( $country_classes, array( 'form-row-wide' ) ) ) );
+	}
+
+	return $fields;
+}
+add_filter( 'woocommerce_checkout_fields', 'still_cup_checkout_fields' );
+
+/**
+ * Place-order button matches the static “Pay $total” control.
+ *
+ * @param string $text Button text.
+ */
+function still_cup_order_button_text( string $text ): string {
+	if ( function_exists( 'WC' ) && WC()->cart ) {
+		return sprintf(
+			/* translators: %s: order total */
+			__( 'Pay %s', 'still-cup' ),
+			wp_strip_all_tags( WC()->cart->get_total() )
+		);
+	}
+	return $text;
+}
+add_filter( 'woocommerce_order_button_text', 'still_cup_order_button_text' );
+
+/**
+ * Payment sits in the left column; the summary stays on the right.
+ */
+remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20 );
+
+/**
+ * Shipping choices on the left, then payment.
+ */
+function still_cup_checkout_after_details(): void {
+	still_cup_render_shipping_options();
+	echo '<div class="sc-checkout-payment mt-8">';
+	echo '<h2 class="m-0 mb-4 font-display text-[28px] desktop:text-[30px] font-normal leading-[1.25]">' . esc_html__( 'Payment', 'still-cup' ) . '</h2>';
+	woocommerce_checkout_payment();
+	echo '</div>';
+}
+add_action( 'woocommerce_checkout_after_customer_details', 'still_cup_checkout_after_details', 20 );
+
+/**
+ * Shipping method radios for the checkout left column.
+ */
+function still_cup_render_shipping_options(): void {
+	echo '<div class="sc-checkout-shipping mt-6">';
+
+	if ( ! WC()->cart || ! WC()->cart->needs_shipping() || ! WC()->cart->show_shipping() ) {
+		echo '<p class="m-0 text-[14px] leading-[1.25]">' . esc_html__( 'Shipping is confirmed once your address is complete.', 'still-cup' ) . '</p>';
+		echo '</div>';
+		return;
+	}
+
+	$packages = WC()->shipping()->get_packages();
+	if ( ! $packages ) {
+		echo '<p class="m-0 text-[14px] leading-[1.25]">' . esc_html__( 'Enter your address to see shipping options.', 'still-cup' ) . '</p>';
+		echo '</div>';
+		return;
+	}
+
+	echo '<ul class="m-0 p-0 list-none grid gap-3">';
+	foreach ( $packages as $index => $package ) {
+		$rates          = isset( $package['rates'] ) && is_array( $package['rates'] ) ? $package['rates'] : array();
+		$chosen_methods = ( WC()->session ) ? WC()->session->get( 'chosen_shipping_methods', array() ) : array();
+		$chosen         = ( is_array( $chosen_methods ) && isset( $chosen_methods[ $index ] ) ) ? $chosen_methods[ $index ] : '';
+		if ( ! $rates ) {
+			echo '<li class="m-0 text-[14px]">' . esc_html__( 'Enter your address to see shipping options.', 'still-cup' ) . '</li>';
+			continue;
+		}
+
+		$first = array_key_first( $rates );
+		foreach ( $rates as $rate_id => $rate ) {
+			if ( ! $rate instanceof WC_Shipping_Rate ) {
+				continue;
+			}
+			$checked = ( (string) $chosen === (string) $rate_id ) || ( $chosen === '' && $rate_id === $first );
+			$cost    = (float) $rate->get_cost();
+			if ( WC()->cart->display_prices_including_tax() ) {
+				$cost += (float) $rate->get_shipping_tax();
+			}
+			printf(
+				'<li class="m-0 flex min-h-16 items-center bg-surface px-[18px] text-[15px] desktop:text-[16px] leading-[1.25]"><label class="flex w-full cursor-pointer items-center justify-between gap-4"><span class="inline-flex items-center gap-3"><input class="shipping_method m-0" type="radio" name="shipping_method[%1$d]" data-index="%1$d" value="%2$s" %3$s />%4$s</span><span>%5$s</span></label></li>',
+				(int) $index,
+				esc_attr( (string) $rate_id ),
+				checked( $checked, true, false ),
+				esc_html( $rate->get_label() ),
+				wp_kses_post( wc_price( $cost ) )
+			);
+		}
+	}
+	echo '</ul></div>';
+}
+
+/**
+ * Keep the left-column shipping list in sync when checkout refreshes.
+ *
+ * @param array<string, string> $fragments Fragments.
+ * @return array<string, string>
+ */
+function still_cup_checkout_fragments( array $fragments ): array {
+	ob_start();
+	still_cup_render_shipping_options();
+	$fragments['.sc-checkout-shipping'] = (string) ob_get_clean();
+	return $fragments;
+}
+add_filter( 'woocommerce_update_order_review_fragments', 'still_cup_checkout_fragments' );
+
+/**
+ * “Edit bag” row inside the checkout summary.
+ */
+function still_cup_checkout_edit_bag_row(): void {
+	echo '<tr class="sc-edit-bag"><td colspan="2"><a class="text-[14px] no-underline" href="' . esc_url( wc_get_cart_url() ) . '">' . esc_html__( 'Edit bag', 'still-cup' ) . '</a></td></tr>';
+}
+add_action( 'woocommerce_review_order_after_cart_contents', 'still_cup_checkout_edit_bag_row' );
+
+/**
+ * Discount code controls inside the summary. The real coupon form stays outside the checkout form.
+ */
+function still_cup_checkout_coupon_row(): void {
+	if ( ! wc_coupons_enabled() ) {
+		return;
+	}
+	?>
+	<tr class="sc-coupon-row">
+		<td colspan="2">
+			<div class="desktop:hidden">
+				<details>
+					<summary class="cursor-pointer text-[14px] leading-[1.25]"><?php esc_html_e( 'Have a discount code? +', 'still-cup' ); ?></summary>
+					<div class="mt-3 flex gap-2">
+						<label class="sr-only" for="sc-coupon-mirror-mobile"><?php esc_html_e( 'Discount code', 'still-cup' ); ?></label>
+						<input id="sc-coupon-mirror-mobile" class="h-[50px] min-w-0 flex-1 border border-border bg-surface px-[14px] font-body text-[15px]" type="text" />
+						<button type="button" class="h-[52px] shrink-0 bg-surface px-4 font-body text-[15px] text-primary border-0 cursor-pointer" data-sc-apply-coupon data-sc-coupon-source="sc-coupon-mirror-mobile"><?php esc_html_e( 'Apply', 'still-cup' ); ?></button>
+					</div>
+				</details>
+			</div>
+			<div class="hidden desktop:block">
+				<label class="mb-1 block text-[13px] leading-[1.25]" for="sc-coupon-mirror"><?php esc_html_e( 'Discount code', 'still-cup' ); ?></label>
+				<div class="flex gap-2">
+					<input id="sc-coupon-mirror" class="h-[50px] min-w-0 flex-1 border border-border bg-surface px-[14px] font-body text-[15px]" type="text" />
+					<button type="button" class="h-[52px] w-[128px] shrink-0 bg-surface font-body text-[15px] text-primary border-0 cursor-pointer" data-sc-apply-coupon data-sc-coupon-source="sc-coupon-mirror"><?php esc_html_e( 'Apply', 'still-cup' ); ?></button>
+				</div>
+			</div>
+		</td>
+	</tr>
+	<?php
+}
+add_action( 'woocommerce_review_order_before_order_total', 'still_cup_checkout_coupon_row', 5 );

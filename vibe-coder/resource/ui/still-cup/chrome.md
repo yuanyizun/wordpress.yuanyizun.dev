@@ -1,6 +1,6 @@
 # Still Cup — site chrome
 
-Theme: `wp-content/themes/still-cup` (v0.4.2)
+Theme: `wp-content/themes/still-cup` (v0.5.0)
 
 Chrome markup uses **Tailwind utilities** (see `tailwind.md`). Built CSS: `assets/css/app.css`.
 
@@ -28,13 +28,15 @@ Fonts: **Newsreader** (wordmark/headings), **Inter** (UI/body).
 ## Components
 
 ### Announcement
-Full-bleed primary bar. Text from Customizer → Still Cup chrome → Announcement bar.
+Home only. Full-bleed primary bar, 30px mobile / 32px desktop. Hidden on shop, product, bag, and checkout.
 
 ### Header
-Utilities on `header.php`. Inner uses hook class `sc-header-inner` for `body.sc-has-header-rule` bottom border. Desktop nav via `still_cup_render_primary_nav( 'desktop' )`; mobile via `'mobile'`.
+Utilities on `header.php`. Inner uses hook class `sc-header-inner`. Inner pages (`body.sc-has-header-rule`, everything except the front page) draw an inset bottom rule via a 1px gradient, aligned to the content width. Desktop nav via `still_cup_render_primary_nav( 'desktop' )`; mobile via `'mobile'`. Default links: Shop all, Mugs, Tumblers, Our story.
+
+Checkout (not the thank-you page) replaces the nav with the wordmark and “Secure checkout”, plus “← Return to bag” on desktop.
 
 ### Mobile nav / search
-IDs unchanged for `navigation.js`: `sc-menu-open`, `sc-menu-close`, `sc-mobile-nav`, `sc-search-open`, `sc-search-close`, `sc-search-panel`, `sc-search-field`. Body gets `sc-menu-open` while open.
+IDs unchanged for `navigation.js`: `sc-menu-open`, `sc-menu-close`, `sc-mobile-nav`, `sc-search-open`, `sc-search-close`, `sc-search-panel`, `sc-search-field`. The menu control shows ☰. Body gets `sc-menu-open` while open. Checkout does not render the menu or search.
 
 ### Footer
-Utilities on `footer.php`; footer menu links get classes via `still_cup_link_class`.
+Utilities on `footer.php`. Desktop shows the wordmark, link row, and “© Still Cup · AUD · PayPal / Visa / Mastercard”. Mobile hides the wordmark. Default links: Contact, Shipping & returns, Care guide, Privacy, Terms.

@@ -1,5 +1,5 @@
 /**
- * Still Cup product page — finish swatches, capacity chips, details accordion.
+ * Still Cup product page — finish swatches, capacity select, details accordion.
  */
 (function ($) {
 	'use strict';
@@ -11,13 +11,11 @@
 	}
 
 	var optionBase =
-		'inline-flex items-center justify-center min-h-touch cursor-pointer font-body text-primary border-0 bg-transparent';
+		'inline-flex items-center justify-center cursor-pointer font-body text-primary border-0 bg-transparent';
 	var swatchBtn =
-		optionBase + ' flex-col gap-[0.35rem] min-w-touch p-0 text-[13px]';
-	var chipBtn =
-		optionBase + ' px-4 border border-border bg-surface text-[14px]';
+		optionBase + ' w-10 h-10 desktop:w-[38px] desktop:h-[38px] p-0 sc-swatch';
 	var swatchVisual =
-		'block w-10 h-10 rounded-full border border-border box-border';
+		'block w-full h-full rounded-full border border-border box-border sc-swatch-visual';
 	var nativeHidden =
 		'sc-variation-native absolute! w-px! h-px! p-0! -m-px! overflow-hidden! border-0!';
 
@@ -32,10 +30,23 @@
 			var isFinish = /finish|colour|color/.test(name + ' ' + labelText);
 			var isCapacity = /capacity|size|volume/.test(name + ' ' + labelText);
 
-			if (!isFinish && !isCapacity) return;
+			if (isCapacity) {
+				$select.addClass('sc-capacity-select');
+				return;
+			}
+
+			if (!isFinish) return;
 
 			$select.data('scEnhanced', true);
-			var $wrap = $('<div class="flex flex-wrap gap-3 my-2 mb-4" role="listbox" />');
+			var $wrap = $('<div class="flex flex-wrap gap-5 my-2 mb-4" role="listbox" />');
+			var $label = $row.find('th.label label, th.label');
+
+			function paintColourLabel() {
+				var text = $select.find('option:selected').text();
+				if ($label.length) {
+					$label.text(text ? 'Colour: ' + text : 'Colour');
+				}
+			}
 
 			$select.find('option').each(function () {
 				var value = $(this).attr('value');
@@ -55,17 +66,13 @@
 				}
 
 				if (isFinish) {
-					$btn.addClass(swatchBtn + ' sc-swatch');
+					$btn.addClass(swatchBtn);
 					$btn.append(
-						$('<span class="' + swatchVisual + ' sc-swatch-visual" aria-hidden="true" />').css(
+						$('<span class="' + swatchVisual + '" aria-hidden="true" />').css(
 							'background',
 							finishColor(text)
 						)
 					);
-					$btn.append($('<span />').text(text));
-				} else {
-					$btn.addClass(chipBtn + ' sc-chip');
-					$btn.text(text);
 				}
 
 				$wrap.append($btn);
@@ -89,6 +96,7 @@
 				$select.val(String(value)).trigger('change');
 				$wrap.find('button[role="option"]').removeClass('is-selected').attr('aria-selected', 'false');
 				$btn.addClass('is-selected').attr('aria-selected', 'true');
+				paintColourLabel();
 			});
 
 			$select.on('change', function () {
@@ -97,7 +105,10 @@
 					var on = String($(this).data('value')) === String(value);
 					$(this).toggleClass('is-selected', on).attr('aria-selected', on ? 'true' : 'false');
 				});
+				paintColourLabel();
 			});
+
+			paintColourLabel();
 		});
 	}
 
@@ -114,10 +125,10 @@
 		function applyMode() {
 			var mobile = isMobile();
 			root.toggleAttribute('data-accordion', mobile);
-			rows.forEach(function (row, index) {
+			rows.forEach(function (row) {
 				if (!mobile) {
 					row.setAttribute('open', '');
-				} else if (index > 0) {
+				} else {
 					row.removeAttribute('open');
 				}
 			});

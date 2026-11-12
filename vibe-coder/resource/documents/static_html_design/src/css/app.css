@@ -1,0 +1,48 @@
+/*
+ * Still Cup static HTML design — Tailwind entry.
+ * Build: npm run build → css/app.css
+ */
+
+@import "tailwindcss";
+
+@source "../../*.html";
+
+@theme {
+  --color-page: #f6f2eb;
+  --color-primary: #243a31;
+  --color-surface: #ffffff;
+  --color-hero: #e9e0d3;
+  --color-story: #dde2d7;
+  --color-border: #cfcfc4;
+  --color-summary: #e9e8df;
+  --color-muted: #59645d;
+  --color-sand: #cbb89e;
+  --color-olive: #7f8d70;
+  --color-chalk: #e5e0d7;
+  --color-inverse: #ffffff;
+
+  --font-display: "Newsreader", "Times New Roman", serif;
+  --font-body: "Inter", system-ui, sans-serif;
+}
+
+@layer base {
+  html,
+  body {
+    @apply min-h-full bg-[#d8d4cc] font-body text-primary antialiased;
+  }
+
+  a {
+    @apply text-inherit no-underline;
+  }
+
+  button,
+  input,
+  select {
+    font-family: inherit;
+    @apply text-inherit;
+  }
+
+  img {
+    @apply block max-w-none;
+  }
+}

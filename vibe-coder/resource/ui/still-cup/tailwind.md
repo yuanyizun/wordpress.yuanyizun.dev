@@ -1,6 +1,6 @@
 # Still Cup — Tailwind CSS (full move)
 
-Theme version 0.4.2 · feature-004 + fix-002
+Theme version 0.5.0 · refactor-001
 
 ## Setup
 

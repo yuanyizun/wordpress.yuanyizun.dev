@@ -9,14 +9,14 @@
 defined( 'ABSPATH' ) || exit;
 
 $count = WC()->cart ? (int) WC()->cart->get_cart_contents_count() : 0;
-$ghost = 'inline-flex items-center justify-center min-h-touch px-5 bg-transparent text-primary border border-border font-body text-[15px] no-underline cursor-pointer hover:opacity-[0.92]';
+$ghost = 'inline-flex items-center min-h-[52px] w-full desktop:w-[270px] px-5 bg-surface text-primary border-0 font-body text-[15px] leading-[1.25] no-underline cursor-pointer hover:opacity-[0.92]';
 
 do_action( 'woocommerce_before_cart' );
 ?>
 <div>
 	<header class="mb-8">
-		<h1 class="m-0 mb-2 font-display text-[clamp(2.25rem,6vw,3.75rem)] font-normal leading-[1.2]"><?php esc_html_e( 'Your bag', 'still-cup' ); ?></h1>
-		<p class="m-0 text-base">
+		<h1 class="m-0 mb-2 font-display text-[40px] desktop:text-[60px] font-normal leading-[1.25]"><?php esc_html_e( 'Your bag', 'still-cup' ); ?></h1>
+		<p class="m-0 text-[16px] desktop:text-[18px] leading-[1.25]">
 			<?php
 			echo esc_html(
 				$count === 1
@@ -54,7 +54,7 @@ do_action( 'woocommerce_before_cart' );
 						$product_permalink = apply_filters( 'woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink( $cart_item ) : '', $cart_item, $cart_item_key );
 						$thumbnail         = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image( 'woocommerce_thumbnail', array( 'class' => 'w-full aspect-square object-cover bg-hero' ) ), $cart_item, $cart_item_key );
 						?>
-						<li class="grid grid-cols-[96px_1fr] desktop:grid-cols-[180px_minmax(0,1fr)_auto] gap-x-5 gap-y-4 desktop:gap-x-9 items-start woocommerce-cart-form__cart-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
+						<li class="grid grid-cols-[96px_1fr] desktop:grid-cols-[180px_minmax(0,1fr)_auto] gap-x-4 gap-y-3 desktop:gap-x-9 items-start woocommerce-cart-form__cart-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
 							<div class="w-full aspect-square bg-hero">
 								<?php
 								if ( ! $product_permalink ) {
@@ -66,7 +66,7 @@ do_action( 'woocommerce_before_cart' );
 							</div>
 
 							<div>
-								<p class="m-0 mb-[0.35rem] font-display text-[1.25rem] desktop:text-[1.75rem] leading-[1.25]" data-title="<?php esc_attr_e( 'Product', 'still-cup' ); ?>">
+								<p class="m-0 mb-[0.35rem] font-display text-[22px] desktop:text-[28px] leading-[1.25]" data-title="<?php esc_attr_e( 'Product', 'still-cup' ); ?>">
 									<?php
 									if ( ! $product_permalink ) {
 										echo wp_kses_post( $product_name );
@@ -124,7 +124,7 @@ do_action( 'woocommerce_before_cart' );
 								</div>
 							</div>
 
-							<div class="col-start-2 desktop:col-auto text-[1.125rem] desktop:text-[1.25rem] desktop:justify-self-end product-subtotal" data-title="<?php esc_attr_e( 'Subtotal', 'still-cup' ); ?>">
+							<div class="col-start-2 desktop:col-auto text-[18px] desktop:text-[20px] desktop:justify-self-end product-subtotal" data-title="<?php esc_attr_e( 'Subtotal', 'still-cup' ); ?>">
 								<?php echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 							</div>
 						</li>

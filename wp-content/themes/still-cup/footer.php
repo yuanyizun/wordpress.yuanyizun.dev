@@ -13,9 +13,9 @@ $footer_link_class = 'inline-flex items-center min-h-touch text-[14px] no-underl
 ?>
 </main>
 
-<footer class="bg-primary text-inverse px-[var(--sc-gutter)] py-8 desktop:py-10 overflow-x-clip max-w-full" role="contentinfo">
-	<div class="grid gap-5 desktop:grid-cols-[auto_1fr] desktop:grid-rows-[auto_auto] desktop:items-start desktop:gap-x-12 mx-auto max-w-[calc(var(--sc-content-max)+2*var(--sc-gutter))]">
-		<a class="font-display text-[28px] desktop:text-[34px] leading-[1.2] no-underline text-inverse hover:!opacity-100 desktop:row-span-2 desktop:self-center" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+<footer class="bg-primary text-inverse px-[var(--sc-gutter)] py-8 desktop:min-h-[140px] desktop:py-8 overflow-x-clip max-w-full" role="contentinfo">
+	<div class="grid gap-3 desktop:grid-cols-[auto_1fr] desktop:grid-rows-[auto_auto] desktop:items-center desktop:gap-x-16 desktop:content-center desktop:min-h-[76px] mx-auto max-w-[calc(var(--sc-content-max)+2*var(--sc-gutter))]">
+		<a class="hidden desktop:block font-display text-[34px] leading-[1.2] no-underline text-inverse hover:!opacity-100 desktop:row-span-2" href="<?php echo esc_url( home_url( '/' ) ); ?>">
 			<?php bloginfo( 'name' ); ?>
 		</a>
 
@@ -48,16 +48,9 @@ $footer_link_class = 'inline-flex items-center min-h-touch text-[14px] no-underl
 			</nav>
 		<?php endif; ?>
 
-		<p class="m-0 text-[13px] opacity-90 desktop:justify-self-end">
-			<?php
-			echo esc_html(
-				sprintf(
-					/* translators: %s: current year */
-					__( '© %s Still Cup · Ceramic cups · Australia', 'still-cup' ),
-					gmdate( 'Y' )
-				)
-			);
-			?>
+		<p class="m-0 text-[13px] desktop:text-[13px] leading-tight desktop:justify-self-end">
+			<?php esc_html_e( '© Still Cup · AUD', 'still-cup' ); ?>
+			<span class="hidden desktop:inline"><?php esc_html_e( ' · PayPal / Visa / Mastercard', 'still-cup' ); ?></span>
 		</p>
 	</div>
 </footer>

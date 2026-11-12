@@ -11,7 +11,7 @@ get_header();
 $is_woo_flow = ( function_exists( 'is_cart' ) && is_cart() )
 	|| ( function_exists( 'is_checkout' ) && is_checkout() );
 
-$shell = 'mx-auto max-w-[calc(var(--sc-content-max)+2*var(--sc-gutter))] px-[var(--sc-gutter)] ' . ( $is_woo_flow ? 'pt-6 pb-16' : 'pt-10 pb-16' );
+$shell = 'mx-auto max-w-[calc(var(--sc-content-max)+2*var(--sc-gutter))] px-[var(--sc-gutter)] ' . ( $is_woo_flow ? 'pt-10 pb-16' : 'pt-10 pb-16' );
 ?>
 
 <div class="<?php echo esc_attr( $shell ); ?>">

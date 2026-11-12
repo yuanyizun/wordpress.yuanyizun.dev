@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>05 Checkout · Desktop · Still Cup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=Newsreader:opsz,wght@6..72,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/app.css" />
+</head>
+<body class="py-8">
+
+<p class="mb-2 ml-4 mt-8 font-body text-[13px] uppercase tracking-[0.04em] text-muted ">05 Checkout · Desktop · 1440 × 1380</p>
+<main class="relative mx-auto h-[1380px] w-[1440px] overflow-hidden bg-page shadow-[0_12px_40px_rgba(36,58,49,0.12)]">
+  <a href="01-home-desktop.html" class="absolute left-16 top-8 w-[300px] font-display text-[38px] leading-[1.25] text-primary">still cup</a>
+  <p class="absolute left-[1000px] top-[50px] w-[400px] text-right font-body text-[14px] leading-[1.25] text-primary">Secure checkout / <a href="04-bag-desktop.html">← Return to bag</a></p>
+  <div class="absolute left-16 top-[100px] h-px w-[1312px] bg-border"></div>
+
+  <h1 class="absolute left-16 top-[145px] w-[800px] font-display text-[54px] leading-[1.25] text-primary">Checkout</h1>
+  <p class="absolute left-16 top-[219px] w-[800px] font-body text-[15px] leading-[1.25] text-primary">No account needed. Already a customer? Sign in</p>
+
+  <label class="absolute left-16 top-[280px] w-[730px] font-body text-[13px] leading-[1.25] text-primary" for="email">Email address</label>
+  <input id="email" type="email" value="you@example.com" class="absolute left-16 top-[305px] h-[50px] w-[730px] border border-border bg-surface px-[14px] font-body text-[15px] leading-[1.25] text-primary outline-none" />
+
+  <h2 class="absolute left-16 top-[395px] w-[700px] font-display text-[30px] leading-[1.25] text-primary">Delivery details</h2>
+
+  <label class="absolute left-16 top-[450px] w-[351px] font-body text-[13px] leading-[1.25] text-primary" for="first">First name</label>
+  <input id="first" type="text" class="absolute left-16 top-[475px] h-[50px] w-[351px] border border-border bg-surface px-[14px] font-body text-[15px] leading-[1.25] text-primary outline-none" />
+  <label class="absolute left-[443px] top-[450px] w-[351px] font-body text-[13px] leading-[1.25] text-primary" for="last">Last name</label>
+  <input id="last" type="text" class="absolute left-[443px] top-[475px] h-[50px] w-[351px] border border-border bg-surface px-[14px] font-body text-[15px] leading-[1.25] text-primary outline-none" />
+
+  <label class="absolute left-16 top-[548px] w-[730px] font-body text-[13px] leading-[1.25] text-primary" for="street">Street address</label>
+  <input id="street" type="text" class="absolute left-16 top-[573px] h-[50px] w-[730px] border border-border bg-surface px-[14px] font-body text-[15px] leading-[1.25] text-primary outline-none" />
+
+  <label class="absolute left-16 top-[646px] w-[351px] font-body text-[13px] leading-[1.25] text-primary" for="suburb">Suburb / city</label>
+  <input id="suburb" type="text" class="absolute left-16 top-[671px] h-[50px] w-[351px] border border-border bg-surface px-[14px] font-body text-[15px] leading-[1.25] text-primary outline-none" />
+  <label class="absolute left-[443px] top-[646px] w-[351px] font-body text-[13px] leading-[1.25] text-primary" for="state">State / postcode</label>
+  <input id="state" type="text" class="absolute left-[443px] top-[671px] h-[50px] w-[351px] border border-border bg-surface px-[14px] font-body text-[15px] leading-[1.25] text-primary outline-none" />
+
+  <p class="absolute left-16 top-[750px] w-[730px] font-body text-[15px] leading-[1.25] text-primary">Country: Australia</p>
+
+  <div class="absolute left-16 top-[798px] flex h-16 w-[730px] items-center justify-between bg-surface px-[18px] font-body text-[16px] leading-[1.25] text-primary">
+    <span>● Standard • 3–7 business days</span>
+    <span>$9.95</span>
+  </div>
+
+  <h2 class="absolute left-16 top-[905px] w-[730px] font-display text-[30px] leading-[1.25] text-primary">Payment</h2>
+  <div class="absolute left-16 top-[956px] h-[162px] w-[730px] border border-primary bg-surface px-[18px] pt-[18px] font-body text-primary">
+    <p class="text-[16px] leading-[1.25]">● Credit / debit card&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Visa / Mastercard</p>
+    <p class="mt-4 text-[15px] leading-[1.25]">Card details securely collected by Stripe</p>
+    <p class="mt-4 text-[16px] leading-[1.25]">Card number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MM / YY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CVC</p>
+  </div>
+  <div class="absolute left-16 top-[1132px] flex h-14 w-[730px] items-center bg-surface px-[18px] font-body text-[16px] leading-[1.25] text-primary">○ PayPal — continue securely with PayPal</div>
+
+  <p class="absolute left-16 top-[1210px] w-[730px] font-body text-[14px] leading-[1.25] text-primary">Your details are used to fulfil your order. Privacy policy • Terms</p>
+  <button type="button" class="absolute left-16 top-[1260px] flex h-[52px] w-[730px] items-center px-5 font-body text-[15px] leading-[1.25] text-inverse bg-primary">Pay $41.95</button>
+
+  <aside class="absolute left-[900px] top-[280px] h-[450px] w-[476px] bg-summary">
+    <h2 class="absolute left-8 top-[30px] w-[410px] font-display text-[30px] leading-[1.25] text-primary">Your order</h2>
+    <p class="absolute left-8 top-[94px] w-[410px] whitespace-pre-wrap font-body text-[17px] leading-[1.25] text-primary">Everyday Mug × 1             $32.00
+Sand / 300 ml</p>
+    <a href="04-bag-desktop.html" class="absolute left-8 top-[158px] w-[410px] font-body text-[14px] leading-[1.25] text-primary">Edit bag</a>
+    <label class="absolute left-8 top-[204px] w-[268px] font-body text-[13px] leading-[1.25] text-primary" for="discount">Discount code</label>
+    <input id="discount" type="text" class="absolute left-8 top-[229px] h-[50px] w-[268px] border border-border bg-surface px-[14px] font-body text-[15px] leading-[1.25] text-primary outline-none" />
+    <button type="button" class="absolute left-[316px] top-[229px] flex h-[52px] w-[128px] items-center justify-center bg-surface font-body text-[15px] leading-[1.25] text-primary">Apply</button>
+    <p class="absolute left-8 top-[304px] w-[410px] whitespace-pre-wrap font-body text-[16px] leading-[1.25] text-primary">Subtotal                         $32.00
+Standard shipping             $9.95</p>
+    <p class="absolute left-8 top-[390px] flex w-[410px] justify-between font-body text-[22px] leading-[1.25] text-primary"><span>Total AUD</span><span>$41.95</span></p>
+  </aside>
+</main>
+
+</body>
+</html>

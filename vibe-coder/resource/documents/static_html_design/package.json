@@ -1,0 +1,14 @@
+{
+  "name": "still-cup-static-html-design",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Still Cup static HTML design screens (Tailwind CSS v4)",
+  "scripts": {
+    "build": "tailwindcss -i ./src/css/app.css -o ./css/app.css --minify",
+    "watch": "tailwindcss -i ./src/css/app.css -o ./css/app.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "tailwindcss": "^4.3.5"
+  }
+}

@@ -21,7 +21,7 @@ if ( post_password_required() ) {
 
 	<?php still_cup_product_breadcrumb(); ?>
 
-	<div class="sc-product-gallery w-full">
+	<div class="sc-product-gallery -mx-[var(--sc-gutter)] desktop:mx-0 w-auto desktop:w-full">
 		<?php
 		/**
 		 * Hook: woocommerce_before_single_product_summary.

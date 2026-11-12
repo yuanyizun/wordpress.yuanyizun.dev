@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'STILL_CUP_VERSION', '0.4.2' );
+define( 'STILL_CUP_VERSION', '0.5.0' );
 define( 'STILL_CUP_DIR', get_template_directory() );
 define( 'STILL_CUP_URI', get_template_directory_uri() );
 
@@ -86,7 +86,7 @@ add_action( 'wp_enqueue_scripts', 'still_cup_enqueue_assets' );
  * Announcement bar text (theme mod).
  */
 function still_cup_announcement_text(): string {
-	$default = __( 'Free standard shipping on orders $100+ · Australia only', 'still-cup' );
+	$default = __( 'A little everyday ritual. Free shipping on orders $100+.', 'still-cup' );
 	$text    = get_theme_mod( 'still_cup_announcement', $default );
 	return is_string( $text ) && $text !== '' ? $text : $default;
 }
@@ -108,7 +108,7 @@ function still_cup_customize_register( WP_Customize_Manager $wp_customize ): voi
 	$wp_customize->add_setting(
 		'still_cup_announcement',
 		array(
-			'default'           => __( 'Free standard shipping on orders $100+ · Australia only', 'still-cup' ),
+			'default'           => __( 'A little everyday ritual. Free shipping on orders $100+.', 'still-cup' ),
 			'sanitize_callback' => 'sanitize_text_field',
 			'transport'         => 'refresh',
 		)
@@ -140,7 +140,7 @@ function still_cup_default_nav_items(): array {
 		),
 	);
 
-	$categories = array( 'Mugs', 'Cups', 'Tumblers' );
+	$categories = array( 'Mugs', 'Tumblers' );
 	foreach ( $categories as $name ) {
 		$url = $shop_url;
 		if ( taxonomy_exists( 'product_cat' ) ) {
@@ -157,6 +157,11 @@ function still_cup_default_nav_items(): array {
 			'url'   => $url,
 		);
 	}
+
+	$items[] = array(
+		'label' => __( 'Our story', 'still-cup' ),
+		'url'   => home_url( '/our-story/' ),
+	);
 
 	return $items;
 }
@@ -177,7 +182,7 @@ function still_cup_nav_classes( string $variant ): array {
 	}
 
 	return array(
-		'list' => 'm-0 p-0 list-none flex flex-wrap gap-6',
+		'list' => 'm-0 p-0 list-none flex flex-wrap gap-7',
 		'item' => '',
 		'link' => 'inline-flex items-center min-h-touch text-[15px] no-underline',
 	);
@@ -265,10 +270,9 @@ function still_cup_account_url(): string {
  */
 function still_cup_footer_links(): array {
 	return array(
-		array( 'label' => __( 'Our story', 'still-cup' ), 'path' => '/our-story/' ),
-		array( 'label' => __( 'Care guide', 'still-cup' ), 'path' => '/care-guide/' ),
-		array( 'label' => __( 'Shipping & returns', 'still-cup' ), 'path' => '/shipping-returns/' ),
 		array( 'label' => __( 'Contact', 'still-cup' ), 'path' => '/contact/' ),
+		array( 'label' => __( 'Shipping & returns', 'still-cup' ), 'path' => '/shipping-returns/' ),
+		array( 'label' => __( 'Care guide', 'still-cup' ), 'path' => '/care-guide/' ),
 		array( 'label' => __( 'Privacy', 'still-cup' ), 'path' => '/privacy/' ),
 		array( 'label' => __( 'Terms', 'still-cup' ), 'path' => '/terms/' ),
 	);

@@ -108,5 +108,50 @@
 				if (event.target === mobileNav) closeMenu();
 			});
 		}
+
+		document.addEventListener('click', function (event) {
+			var qtyBtn = event.target.closest('.sc-qty-dec, .sc-qty-inc');
+			if (qtyBtn) {
+				var wrap = qtyBtn.closest('.quantity');
+				var input = wrap ? wrap.querySelector('input.qty') : null;
+				if (input && !input.readOnly) {
+					var dir = qtyBtn.classList.contains('sc-qty-dec') ? -1 : 1;
+					var min = input.min === '' ? 0 : parseFloat(input.min);
+					var max = input.max === '' ? Infinity : parseFloat(input.max);
+					var current = parseFloat(input.value || '0');
+					if (Number.isNaN(current)) current = min;
+					var next = current + dir;
+					if (next < min) next = min;
+					if (next > max) next = max;
+					if (next !== current) {
+						input.value = String(next);
+						input.dispatchEvent(new Event('change', { bubbles: true }));
+						var cartForm = input.closest('form.woocommerce-cart-form');
+						if (cartForm) {
+							window.setTimeout(function () {
+								var update = cartForm.querySelector('[name="update_cart"]');
+								if (!update) return;
+								update.disabled = false;
+								update.click();
+							}, 0);
+						}
+					}
+				}
+			}
+
+			var couponBtn = event.target.closest('[data-sc-apply-coupon]');
+			if (couponBtn) {
+				var sourceId = couponBtn.getAttribute('data-sc-coupon-source');
+				var source = sourceId ? document.getElementById(sourceId) : null;
+				var real = document.getElementById('coupon_code');
+				var couponForm = document.querySelector('form.checkout_coupon');
+				if (source && real && couponForm) {
+					real.value = source.value;
+					if (window.jQuery) {
+						window.jQuery(couponForm).trigger('submit');
+					}
+				}
+			}
+		});
 	});
 })();

@@ -7,3 +7,4 @@
 | feature-003 | Still Cup page templates — Home, Shop, Product, Bag, Checkout | [plan](../plans/feature-003.md) | done | [results](../results/feature-003.md) | 2026-11-12T21:05:30 |
 | feature-004 | Use Tailwindcss for custom template | [plan](../plans/feature-004.md) | done | [results](../results/feature-004.md) | 2026-11-12T22:22:16 |
 | feature-005 | Add Playwright script and report generator | [plan](../plans/feature-005.md) | done | [results](../results/feature-005.md) | 2026-11-12T23:13:19 |
+| feature-006 | Generate the pure html static pages based on design | [plan](../plans/feature-006.md) | done | [results](../results/feature-006.md) | 2026-11-13T00:09:12 |

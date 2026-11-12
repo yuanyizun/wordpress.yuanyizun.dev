@@ -20,19 +20,29 @@ if ( str_starts_with( $story_url, '/' ) ) {
 
 $hero_image_id = (int) get_theme_mod( 'still_cup_hero_image', 0 );
 
-$btn = 'inline-flex items-center justify-center min-h-touch px-5 border-0 bg-primary text-inverse font-body text-[15px] no-underline cursor-pointer hover:opacity-[0.92] hover:text-inverse';
+$btn = 'inline-flex items-center min-h-[52px] w-full desktop:w-[236px] px-5 border-0 bg-primary text-inverse font-body text-[15px] leading-[1.2] no-underline cursor-pointer hover:opacity-[0.92] hover:text-inverse';
+$hero_cta = still_cup_mod( 'still_cup_hero_cta', __( 'Shop the collection', 'still-cup' ) );
+if ( ! preg_match( '/→\s*$/u', $hero_cta ) ) {
+	$hero_cta .= '  →';
+}
+$story_label = still_cup_mod( 'still_cup_story_link_label', __( 'Meet Still Cup', 'still-cup' ) );
+if ( ! preg_match( '/↗\s*$/u', $story_label ) ) {
+	$story_label .= '  ↗';
+}
+$benefits_raw = still_cup_mod( 'still_cup_benefits', __( 'Considered ceramics  ·  Carefully packed  ·  Australian owned', 'still-cup' ) );
+$benefits     = array_values( array_filter( array_map( 'trim', preg_split( '/\s*·\s*/u', $benefits_raw ) ?: array() ) ) );
 ?>
 
-<section class="grid gap-6 desktop:grid-cols-2 desktop:items-end desktop:min-h-[570px] desktop:gap-0 pt-6 px-[var(--sc-gutter)] desktop:p-0 bg-hero" aria-label="<?php esc_attr_e( 'Hero', 'still-cup' ); ?>">
-	<div class="desktop:px-[var(--sc-gutter)] desktop:pt-[4.5rem] desktop:pb-16">
-		<p class="m-0 mb-2 text-[11px] desktop:text-[13px] tracking-[0.02em]"><?php echo esc_html( still_cup_mod( 'still_cup_hero_eyebrow', __( 'Handmade ceramic cups', 'still-cup' ) ) ); ?></p>
-		<h1 class="m-0 mb-4 font-display text-[clamp(2.5rem,8vw,5rem)] desktop:text-[80px] font-normal leading-[1.15] desktop:leading-[1.2]"><?php echo esc_html( still_cup_mod( 'still_cup_hero_heading', __( 'Still mornings, considered cups', 'still-cup' ) ) ); ?></h1>
-		<p class="m-0 mb-6 max-w-[32rem] text-base desktop:text-[18px]"><?php echo esc_html( still_cup_mod( 'still_cup_hero_text', __( 'Quiet forms and calm finishes for everyday rituals across Australia.', 'still-cup' ) ) ); ?></p>
+<section class="grid desktop:grid-cols-[minmax(0,754fr)_minmax(0,686fr)] desktop:min-h-[570px] bg-hero" aria-label="<?php esc_attr_e( 'Hero', 'still-cup' ); ?>">
+	<div class="px-[var(--sc-gutter)] pt-8 pb-6 desktop:flex desktop:flex-col desktop:justify-center desktop:min-h-[570px] desktop:py-0">
+		<p class="m-0 mb-3 text-[11px] desktop:text-[13px] uppercase leading-[1.25] desktop:leading-[1.2]"><?php echo esc_html( still_cup_mod( 'still_cup_hero_eyebrow', __( 'Small moments, well made', 'still-cup' ) ) ); ?></p>
+		<h1 class="m-0 mb-4 font-display text-[50px] desktop:text-[80px] font-normal leading-[1.25] desktop:leading-[1.2]"><?php echo esc_html( still_cup_mod( 'still_cup_hero_heading', __( 'Make room for a slower sip.', 'still-cup' ) ) ); ?></h1>
+		<p class="m-0 mb-6 max-w-[34rem] text-[16px] desktop:text-[18px] leading-[1.25] desktop:leading-[1.2]"><?php echo esc_html( still_cup_mod( 'still_cup_hero_text', __( 'Thoughtfully made ceramic cups for the coffee, the conversation, and the pause in between.', 'still-cup' ) ) ); ?></p>
 		<a class="<?php echo esc_attr( $btn ); ?>" href="<?php echo esc_url( $cta_url ); ?>">
-			<?php echo esc_html( still_cup_mod( 'still_cup_hero_cta', __( 'Shop collection', 'still-cup' ) ) ); ?>
+			<?php echo esc_html( $hero_cta ); ?>
 		</a>
 	</div>
-	<figure class="relative m-0 -mx-[var(--sc-gutter)] desktop:mx-0 desktop:h-full desktop:min-h-[570px]">
+	<figure class="relative m-0 -mx-[var(--sc-gutter)] desktop:mx-0 h-[330px] desktop:h-auto desktop:min-h-[570px]">
 		<?php if ( $hero_image_id ) : ?>
 			<?php
 			echo wp_get_attachment_image(
@@ -40,25 +50,33 @@ $btn = 'inline-flex items-center justify-center min-h-touch px-5 border-0 bg-pri
 				'large',
 				false,
 				array(
-					'class' => 'w-full aspect-[390/330] object-cover bg-[#d4c4b0] desktop:!h-full desktop:min-h-[570px] desktop:aspect-auto',
+					'class' => 'w-full h-full object-cover bg-[#d4c4b0]',
 					'alt'   => '',
 				)
 			);
 			?>
 		<?php else : ?>
-			<div class="w-full aspect-[390/330] bg-[#d4c4b0] desktop:h-full desktop:min-h-[570px] desktop:aspect-auto" aria-hidden="true"></div>
+			<div class="w-full h-full min-h-[330px] desktop:min-h-[570px] bg-[#d4c4b0]" aria-hidden="true"></div>
 		<?php endif; ?>
-		<figcaption class="absolute left-[var(--sc-gutter)] desktop:left-8 bottom-3 desktop:bottom-6 m-0 text-[12px] text-inverse [text-shadow:0_1px_2px_rgba(0,0,0,0.35)]"><?php echo esc_html( still_cup_mod( 'still_cup_hero_caption', __( 'Studio light on sand finish', 'still-cup' ) ) ); ?></figcaption>
+		<figcaption class="hidden desktop:block absolute left-8 bottom-6 m-0 text-[12px] leading-[1.2] text-inverse [text-shadow:0_1px_2px_rgba(0,0,0,0.35)]"><?php echo esc_html( still_cup_mod( 'still_cup_hero_caption', __( 'The everyday collection / 01', 'still-cup' ) ) ); ?></figcaption>
 	</figure>
 </section>
 
-<p class="m-0 px-[var(--sc-gutter)] py-5 desktop:py-6 text-center text-[14px] desktop:text-[15px]"><?php echo esc_html( still_cup_mod( 'still_cup_benefits', __( 'Made in small batches  ·  Thoughtful finishes  ·  Ships Australia-wide', 'still-cup' ) ) ); ?></p>
+<?php if ( $benefits ) : ?>
+	<p class="hidden desktop:flex m-0 px-[var(--sc-gutter)] py-8 items-center justify-center gap-x-16 text-center text-[15px] leading-[1.2]">
+		<?php foreach ( $benefits as $benefit ) : ?>
+			<span><?php echo esc_html( $benefit ); ?></span>
+		<?php endforeach; ?>
+	</p>
+<?php endif; ?>
 
-<section class="px-[var(--sc-gutter)] pt-6 pb-12 mx-auto max-w-[calc(var(--sc-content-max)+2*var(--sc-gutter))]" aria-labelledby="sc-featured-heading">
-	<div class="grid gap-[0.35rem] desktop:grid-cols-[1fr_auto] desktop:grid-rows-[auto_auto] desktop:items-end mb-5">
-		<p class="m-0 text-[12px] desktop:col-start-1"><?php echo esc_html( still_cup_mod( 'still_cup_featured_eyebrow', __( 'Featured', 'still-cup' ) ) ); ?></p>
-		<h2 id="sc-featured-heading" class="m-0 font-display text-[clamp(1.75rem,4vw,2.875rem)] font-normal desktop:col-start-1"><?php echo esc_html( still_cup_mod( 'still_cup_featured_heading', __( 'Cups for the slow hours', 'still-cup' ) ) ); ?></h2>
-		<a class="text-[14px] desktop:text-[15px] desktop:col-start-2 desktop:row-start-2" href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'Shop all', 'still-cup' ); ?></a>
+<section class="px-[var(--sc-gutter)] pt-8 desktop:pt-4 pb-12 mx-auto max-w-[calc(var(--sc-content-max)+2*var(--sc-gutter))]" aria-labelledby="sc-featured-heading">
+	<div class="mb-5 desktop:mb-6">
+		<p class="hidden desktop:block m-0 mb-2 text-[12px] leading-[1.2] uppercase"><?php echo esc_html( still_cup_mod( 'still_cup_featured_eyebrow', __( 'Find your everyday favourite', 'still-cup' ) ) ); ?></p>
+		<div class="flex flex-col gap-2 desktop:flex-row desktop:items-end desktop:justify-between">
+			<h2 id="sc-featured-heading" class="m-0 font-display text-[33px] desktop:text-[46px] font-normal leading-[1.25] desktop:leading-[1.2]"><?php echo esc_html( still_cup_mod( 'still_cup_featured_heading', __( 'Good mornings start here.', 'still-cup' ) ) ); ?></h2>
+			<a class="text-[14px] desktop:text-[15px] leading-[1.25] no-underline" href="<?php echo esc_url( $shop_url ); ?>"><?php esc_html_e( 'Shop all cups  ↗', 'still-cup' ); ?></a>
+		</div>
 	</div>
 
 	<?php if ( class_exists( 'WooCommerce' ) ) : ?>
@@ -92,7 +110,7 @@ $btn = 'inline-flex items-center justify-center min-h-touch px-5 border-0 bg-pri
 		?>
 
 		<?php if ( $featured->have_posts() ) : ?>
-			<ul class="grid grid-cols-1 min-[360px]:grid-cols-2 desktop:grid-cols-3 gap-x-[0.875rem] gap-y-5 desktop:gap-x-[1.4rem] desktop:gap-y-6 m-0 p-0 list-none">
+			<ul class="grid grid-cols-2 desktop:grid-cols-3 gap-x-3.5 gap-y-5 desktop:gap-x-6 desktop:gap-y-6 m-0 p-0 list-none">
 				<?php
 				while ( $featured->have_posts() ) {
 					$featured->the_post();
@@ -110,16 +128,16 @@ $btn = 'inline-flex items-center justify-center min-h-touch px-5 border-0 bg-pri
 	<?php endif; ?>
 </section>
 
-<section class="bg-story px-[var(--sc-gutter)] py-8 desktop:py-12" aria-labelledby="sc-story-heading">
-	<div class="mx-auto max-w-[calc(var(--sc-content-max)+2*var(--sc-gutter))] grid gap-4 desktop:grid-cols-2 desktop:gap-12 desktop:items-center">
+<section class="bg-story px-[var(--sc-gutter)] py-8 desktop:min-h-[240px] desktop:py-12 desktop:flex desktop:items-center" aria-labelledby="sc-story-heading">
+	<div class="mx-auto w-full max-w-[calc(var(--sc-content-max)+2*var(--sc-gutter))] grid gap-3 desktop:grid-cols-2 desktop:gap-12 desktop:items-center">
 		<div>
-			<p class="m-0 mb-2 text-[12px]"><?php echo esc_html( still_cup_mod( 'still_cup_story_eyebrow', __( 'Our story', 'still-cup' ) ) ); ?></p>
-			<h2 id="sc-story-heading" class="m-0 font-display text-[clamp(1.75rem,4vw,2.75rem)] font-normal leading-[1.2]"><?php echo esc_html( still_cup_mod( 'still_cup_story_heading', __( 'Clay, patience, and a quieter table', 'still-cup' ) ) ); ?></h2>
+			<p class="hidden desktop:block m-0 mb-2 text-[12px] uppercase leading-[1.2]"><?php echo esc_html( still_cup_mod( 'still_cup_story_eyebrow', __( 'Our approach', 'still-cup' ) ) ); ?></p>
+			<h2 id="sc-story-heading" class="m-0 font-display text-[34px] desktop:text-[44px] font-normal leading-[1.25] desktop:leading-[1.2]"><?php echo esc_html( still_cup_mod( 'still_cup_story_heading', __( 'Less, but loved more.', 'still-cup' ) ) ); ?></h2>
 		</div>
 		<div>
-			<p class="mt-0 text-base desktop:text-[18px] leading-normal"><?php echo esc_html( still_cup_mod( 'still_cup_story_text', __( 'Still Cup is a small Australian brand making ceramic cups meant to be held, used, and kept.', 'still-cup' ) ) ); ?></p>
-			<a class="text-base" href="<?php echo esc_url( $story_url ); ?>">
-				<?php echo esc_html( still_cup_mod( 'still_cup_story_link_label', __( 'Read our story', 'still-cup' ) ) ); ?>
+			<p class="m-0 text-[16px] desktop:text-[18px] leading-[1.25] desktop:leading-[1.2]"><?php echo esc_html( still_cup_mod( 'still_cup_story_text', __( 'Simple shapes. Tactile finishes. Cups that feel at home in your hands, and earn their place on your shelf.', 'still-cup' ) ) ); ?></p>
+			<a class="hidden desktop:inline-block mt-4 text-[16px] leading-[1.2] no-underline" href="<?php echo esc_url( $story_url ); ?>">
+				<?php echo esc_html( $story_label ); ?>
 			</a>
 		</div>
 	</div>
