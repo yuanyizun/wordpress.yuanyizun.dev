@@ -364,6 +364,326 @@ function still_cup_body_classes( array $classes ): array {
 	if ( function_exists( 'is_checkout' ) && is_checkout() ) {
 		$classes[] = 'sc-is-checkout';
 	}
+	if ( ! is_front_page() ) {
+		$classes[] = 'sc-has-header-rule';
+	}
 	return $classes;
 }
 add_filter( 'body_class', 'still_cup_body_classes' );
+
+/**
+ * Shop archive heading matches Pencil shop artboard.
+ *
+ * @param string $title Title.
+ */
+function still_cup_shop_page_title( string $title ): string {
+	if ( function_exists( 'is_shop' ) && is_shop() ) {
+		return __( 'Find your kind of cup.', 'still-cup' );
+	}
+	return $title;
+}
+add_filter( 'woocommerce_page_title', 'still_cup_shop_page_title' );
+
+/**
+ * Hide the bare H1 from woocommerce_content(); theme prints Pencil shop intro instead.
+ */
+add_filter( 'woocommerce_show_page_title', '__return_false' );
+
+/**
+ * Pencil shop intro (eyebrow + title + copy).
+ * Hooked on archive_description because theme woocommerce.php uses woocommerce_content().
+ */
+function still_cup_shop_intro(): void {
+	if ( ! is_shop() && ! is_product_taxonomy() ) {
+		return;
+	}
+	?>
+	<header class="sc-shop-intro woocommerce-products-header">
+		<p class="sc-shop-intro__eyebrow"><?php esc_html_e( 'The collection', 'still-cup' ); ?></p>
+		<h1 class="woocommerce-products-header__title page-title"><?php woocommerce_page_title(); ?></h1>
+		<p class="sc-shop-intro__text"><?php esc_html_e( 'A small collection, made for everyday moments.', 'still-cup' ); ?></p>
+	</header>
+	<?php
+}
+add_action( 'woocommerce_archive_description', 'still_cup_shop_intro', 5 );
+
+/**
+ * Product: breadcrumbs above the product grid (Pencil).
+ */
+function still_cup_product_breadcrumb(): void {
+	if ( ! is_product() ) {
+		return;
+	}
+	woocommerce_breadcrumb(
+		array(
+			'delimiter'   => ' / ',
+			'wrap_before' => '<nav class="sc-breadcrumb woocommerce-breadcrumb" aria-label="' . esc_attr__( 'Breadcrumb', 'still-cup' ) . '">',
+			'wrap_after'  => '</nav>',
+		)
+	);
+}
+remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
+
+/**
+ * Collection label above product title.
+ */
+function still_cup_product_collection_label(): void {
+	global $product;
+	if ( ! $product instanceof WC_Product ) {
+		return;
+	}
+	$label = still_cup_product_collection_text( $product );
+	if ( $label === '' ) {
+		return;
+	}
+	echo '<p class="sc-product__collection">' . esc_html( $label ) . '</p>';
+}
+add_action( 'woocommerce_single_product_summary', 'still_cup_product_collection_label', 4 );
+
+/**
+ * Collection / category label for product summary.
+ */
+function still_cup_product_collection_text( WC_Product $product ): string {
+	$custom = get_post_meta( $product->get_id(), '_sc_collection', true );
+	if ( is_string( $custom ) && $custom !== '' ) {
+		return $custom;
+	}
+	$terms = get_the_terms( $product->get_id(), 'product_cat' );
+	if ( ! is_array( $terms ) ) {
+		return '';
+	}
+	foreach ( $terms as $term ) {
+		if ( $term instanceof WP_Term && $term->slug !== 'uncategorized' ) {
+			return sprintf(
+				/* translators: %s: category name */
+				__( '%s collection', 'still-cup' ),
+				$term->name
+			);
+		}
+	}
+	return '';
+}
+
+/**
+ * Photo caption under gallery.
+ */
+function still_cup_product_photo_note(): void {
+	echo '<p class="sc-product__photo-note">' . esc_html__( 'Photography reflects the product shape, texture and tone.', 'still-cup' ) . '</p>';
+}
+add_action( 'woocommerce_before_single_product_summary', 'still_cup_product_photo_note', 25 );
+
+/**
+ * Shipping policy under add-to-bag.
+ */
+function still_cup_product_shipping_note(): void {
+	echo '<p class="sc-product__shipping-note">' . esc_html__( '$9.95 standard shipping · free over $100. Australia-wide.', 'still-cup' ) . '</p>';
+}
+add_action( 'woocommerce_single_product_summary', 'still_cup_product_shipping_note', 35 );
+
+/**
+ * Stock message styling hook placement after price/description.
+ */
+function still_cup_product_stock_message(): void {
+	global $product;
+	if ( ! $product instanceof WC_Product || ! $product->is_in_stock() ) {
+		return;
+	}
+	echo '<p class="sc-product__stock">' . esc_html__( 'In stock · Ready to dispatch in 2–3 business days.', 'still-cup' ) . '</p>';
+}
+add_action( 'woocommerce_single_product_summary', 'still_cup_product_stock_message', 25 );
+
+/**
+ * Add to bag button label.
+ *
+ * @param string     $text    Text.
+ * @param WC_Product $product Product.
+ */
+function still_cup_add_to_cart_text( string $text, WC_Product $product ): string {
+	if ( is_product() ) {
+		$price = $product->get_price();
+		if ( $price !== '' && $price !== null ) {
+			return sprintf(
+				/* translators: %s: formatted price */
+				__( 'Add to bag — %s', 'still-cup' ),
+				wp_strip_all_tags( wc_price( (float) $price ) )
+			);
+		}
+		return __( 'Add to bag', 'still-cup' );
+	}
+	return __( 'View product', 'still-cup' );
+}
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'still_cup_add_to_cart_text', 10, 2 );
+add_filter( 'woocommerce_product_add_to_cart_text', 'still_cup_add_to_cart_text', 10, 2 );
+
+/**
+ * Hide default meta / rating (Pencil uses breadcrumb + details instead).
+ */
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_rating', 10 );
+
+/**
+ * Replace Reviews tabs with Pencil details rows.
+ */
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
+
+/**
+ * Render Pencil product details rows.
+ */
+function still_cup_output_product_details(): void {
+	wc_get_template( 'single-product/product-details.php' );
+}
+add_action( 'woocommerce_after_single_product_summary', 'still_cup_output_product_details', 10 );
+
+/**
+ * Detail rows for product page (desktop expanded / mobile accordion via CSS).
+ *
+ * @param WC_Product $product Product.
+ * @return array<int, array{label: string, value: string}>
+ */
+function still_cup_product_detail_rows( WC_Product $product ): array {
+	$details = get_post_meta( $product->get_id(), '_sc_details', true );
+	$care    = get_post_meta( $product->get_id(), '_sc_care', true );
+	$ship    = get_post_meta( $product->get_id(), '_sc_shipping', true );
+
+	if ( ! is_string( $details ) || $details === '' ) {
+		$parts = array();
+		$attrs = $product->get_attributes();
+		foreach ( $attrs as $attribute ) {
+			if ( ! $attribute instanceof WC_Product_Attribute ) {
+				continue;
+			}
+			$name = $attribute->get_name();
+			if ( still_cup_is_capacity_attribute( $name ) ) {
+				if ( $attribute->is_taxonomy() ) {
+					$terms = wc_get_product_terms( $product->get_id(), $name, array( 'fields' => 'names' ) );
+					if ( is_array( $terms ) && $terms ) {
+						$parts[] = implode( ' · ', $terms );
+					}
+				} else {
+					$parts[] = implode( ' · ', array_map( 'strval', $attribute->get_options() ) );
+				}
+			}
+		}
+		$short = $product->get_short_description();
+		if ( $short ) {
+			$parts[] = wp_strip_all_tags( $short );
+		}
+		$details = $parts ? implode( ' · ', $parts ) : __( 'Capacity and dimensions listed with each finish.', 'still-cup' );
+	}
+
+	if ( ! is_string( $care ) || $care === '' ) {
+		$care = __( 'Dishwasher safe; hand wash for best finish.', 'still-cup' );
+	}
+	if ( ! is_string( $ship ) || $ship === '' ) {
+		$ship = __( 'Dispatch in 1–3 business days. Packed with care.', 'still-cup' );
+	}
+
+	return array(
+		array(
+			'label' => __( 'Details', 'still-cup' ),
+			'value' => $details,
+		),
+		array(
+			'label' => __( 'Care', 'still-cup' ),
+			'value' => $care,
+		),
+		array(
+			'label' => __( 'Shipping & returns', 'still-cup' ),
+			'value' => $ship,
+		),
+	);
+}
+
+/**
+ * Free-shipping threshold message on bag.
+ */
+function still_cup_bag_threshold_message(): void {
+	if ( ! WC()->cart ) {
+		return;
+	}
+	$threshold = (float) apply_filters( 'still_cup_free_shipping_threshold', 100 );
+	$subtotal  = (float) WC()->cart->get_displayed_subtotal();
+	if ( WC()->cart->display_prices_including_tax() ) {
+		$subtotal = (float) WC()->cart->get_subtotal() + (float) WC()->cart->get_subtotal_tax();
+	} else {
+		$subtotal = (float) WC()->cart->get_subtotal();
+	}
+	// Prefer discounted merchandise subtotal when coupons apply.
+	$discounted = (float) WC()->cart->get_cart_contents_total();
+	if ( $discounted > 0 ) {
+		$subtotal = $discounted;
+	}
+
+	if ( $subtotal >= $threshold ) {
+		echo '<p class="sc-bag__threshold">' . esc_html__( 'You’ve unlocked free standard shipping.', 'still-cup' ) . '</p>';
+		return;
+	}
+
+	$remaining = $threshold - $subtotal;
+	echo '<p class="sc-bag__threshold">' . esc_html(
+		sprintf(
+			/* translators: %s: formatted remaining amount */
+			__( 'You’re %s away from free shipping.', 'still-cup' ),
+			wp_strip_all_tags( wc_price( $remaining ) )
+		)
+	) . '</p>';
+}
+
+/**
+ * Move result count below toolbar.
+ */
+remove_action( 'woocommerce_before_shop_loop', 'woocommerce_result_count', 20 );
+add_action( 'woocommerce_before_shop_loop', 'woocommerce_result_count', 25 );
+
+/**
+ * Add-to-bag success notice — Pencil/delivery: announce with View bag link.
+ *
+ * @param string     $message Message HTML.
+ * @param int|array  $products Product ID(s).
+ * @param bool       $show_qty Whether qty is shown.
+ */
+function still_cup_add_to_cart_message_html( string $message, $products, bool $show_qty = false ): string {
+	$titles = array();
+	$count  = 0;
+
+	if ( ! is_array( $products ) ) {
+		$products = array( $products => 1 );
+	}
+
+	foreach ( $products as $product_id => $qty ) {
+		$product = wc_get_product( $product_id );
+		if ( ! $product ) {
+			continue;
+		}
+		$count   += (int) $qty;
+		$titles[] = $show_qty && (int) $qty > 1
+			? sprintf( '%s &times; %s', (int) $qty, $product->get_name() )
+			: sprintf( '&ldquo;%s&rdquo;', $product->get_name() );
+	}
+
+	if ( empty( $titles ) ) {
+		return $message;
+	}
+
+	$added = $count > 1
+		? sprintf(
+			/* translators: %s: product names */
+			__( '%s have been added to your bag.', 'still-cup' ),
+			wc_format_list_of_items( $titles )
+		)
+		: sprintf(
+			/* translators: %s: product name */
+			__( '%s has been added to your bag.', 'still-cup' ),
+			$titles[0]
+		);
+
+	return sprintf(
+		'<span class="sc-notice__text">%1$s</span> <a href="%2$s" class="sc-notice__link" tabindex="1">%3$s</a>',
+		wp_kses_post( $added ),
+		esc_url( wc_get_cart_url() ),
+		esc_html__( 'View bag', 'still-cup' )
+	);
+}
+add_filter( 'wc_add_to_cart_message_html', 'still_cup_add_to_cart_message_html', 10, 3 );

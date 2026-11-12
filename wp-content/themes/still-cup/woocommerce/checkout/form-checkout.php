@@ -18,6 +18,11 @@ if ( ! $checkout->is_registration_enabled() && $checkout->is_registration_requir
 
 <form name="checkout" method="post" class="checkout woocommerce-checkout sc-checkout" action="<?php echo esc_url( wc_get_checkout_url() ); ?>" enctype="multipart/form-data" aria-label="<?php echo esc_attr__( 'Checkout', 'woocommerce' ); ?>">
 
+	<header class="sc-checkout__header">
+		<h1 class="sc-checkout__title"><?php esc_html_e( 'Checkout', 'still-cup' ); ?></h1>
+		<p class="sc-checkout__guest"><?php esc_html_e( 'No account needed. Already a member? Sign in from Account.', 'still-cup' ); ?></p>
+	</header>
+
 	<div class="sc-checkout__layout">
 		<div class="sc-checkout__customer">
 			<?php if ( $checkout->get_checkout_fields() ) : ?>

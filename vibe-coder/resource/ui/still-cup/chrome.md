@@ -31,6 +31,7 @@ Full-bleed primary bar. Text from Customizer → Still Cup chrome → Announceme
 - Wordmark → home
 - Desktop (≥1024): primary nav (Shop all, Mugs, Cups, Tumblers), Search / Account / Bag
 - Mobile (<1024): Menu toggle, centred wordmark, Bag; search/account in panel or utilities as styled
+- Inner pages (`body.sc-has-header-rule`): 1px border under header inner (Pencil nav divider)
 
 ### Mobile nav (`.sc-mobile-nav`)
 Dialog panel; open/close buttons; Escape + backdrop click; focus trap; focus returns to Menu. Script: `assets/js/navigation.js`.

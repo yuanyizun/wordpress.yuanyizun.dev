@@ -1,6 +1,6 @@
 <?php
 /**
- * Product card in loops.
+ * Product card in loops — title + price row per Pencil shop/home cards.
  *
  * @package Still_Cup
  * @version 9.4.0
@@ -20,13 +20,26 @@ if ( ! is_a( $product, WC_Product::class ) || ! $product->is_visible() ) {
 			<?php echo $product->get_image( 'woocommerce_thumbnail', array( 'class' => 'sc-card__image' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</span>
 		<span class="sc-card__body">
-			<span class="sc-card__title"><?php echo esc_html( $product->get_name() ); ?></span>
-			<span class="sc-card__price"><?php echo wp_kses_post( $product->get_price_html() ); ?></span>
+			<span class="sc-card__row">
+				<span class="sc-card__title"><?php echo esc_html( $product->get_name() ); ?></span>
+				<span class="sc-card__price"><?php echo wp_kses_post( $product->get_price_html() ); ?></span>
+			</span>
 			<?php
 			$finishes = still_cup_product_finish_labels( $product );
 			if ( ! empty( $finishes ) ) :
+				$count = count( $finishes );
 				?>
-				<span class="sc-card__finishes"><?php echo esc_html( implode( ', ', $finishes ) ); ?></span>
+				<span class="sc-card__finishes">
+					<?php
+					echo esc_html(
+						sprintf(
+							/* translators: %d: number of finishes */
+							_n( '%d finish available', '%d finishes available', $count, 'still-cup' ),
+							$count
+						)
+					);
+					?>
+				</span>
 			<?php endif; ?>
 		</span>
 	</a>

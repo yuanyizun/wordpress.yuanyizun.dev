@@ -1,5 +1,5 @@
 /**
- * Still Cup product page — finish swatches, capacity buttons, mobile details accordion.
+ * Still Cup product page — finish swatches, capacity chips, details accordion.
  */
 (function ($) {
 	'use strict';
@@ -77,37 +77,29 @@
 	}
 
 	function setupDetailsAccordion() {
-		var root = document.querySelector('[data-sc-details]');
+		var root = document.querySelector('[data-sc-product-details]');
 		if (!root) return;
-		var panels = root.querySelectorAll('.woocommerce-Tabs-panel, .wc-tab');
-		var titles = root.querySelectorAll('.woocommerce-tabs ul.tabs li a, .wc-tabs li a');
+
+		var rows = root.querySelectorAll('.sc-product-details__row');
 
 		function isMobile() {
 			return window.matchMedia('(max-width: 1023px)').matches;
 		}
 
 		function applyMode() {
-			if (!isMobile()) {
-				root.classList.remove('sc-details--accordion');
-				return;
-			}
-			root.classList.add('sc-details--accordion');
+			var mobile = isMobile();
+			root.classList.toggle('sc-product-details--accordion', mobile);
+			rows.forEach(function (row, index) {
+				if (!mobile) {
+					row.setAttribute('open', '');
+				} else if (index > 0) {
+					row.removeAttribute('open');
+				}
+			});
 		}
 
 		applyMode();
 		window.addEventListener('resize', applyMode);
-
-		// Keyboard-friendly: ensure tab links are buttons-like with Enter.
-		titles.forEach(function (link) {
-			link.addEventListener('keydown', function (event) {
-				if (event.key === 'Enter' || event.key === ' ') {
-					event.preventDefault();
-					link.click();
-				}
-			});
-		});
-
-		void panels;
 	}
 
 	$(function () {
@@ -115,7 +107,6 @@
 		if ($form.length) {
 			enhanceVariations($form);
 			$form.on('woocommerce_update_variation_values reset_data', function () {
-				// Re-sync disabled state after Woo updates options.
 				$form.find('table.variations select').each(function () {
 					var $select = $(this);
 					var $wrap = $select.next('.sc-variation-ui');

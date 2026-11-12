@@ -1,6 +1,6 @@
 <?php
 /**
- * Single product layout.
+ * Single product layout — Pencil 02 Product.
  *
  * @package Still_Cup
  * @version 3.6.0
@@ -19,6 +19,8 @@ if ( post_password_required() ) {
 ?>
 <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'sc-product', $product ); ?>>
 
+	<?php still_cup_product_breadcrumb(); ?>
+
 	<div class="sc-product__gallery">
 		<?php
 		/**
@@ -26,6 +28,7 @@ if ( post_password_required() ) {
 		 *
 		 * @hooked woocommerce_show_product_sale_flash - 10
 		 * @hooked woocommerce_show_product_images - 20
+		 * @hooked still_cup_product_photo_note - 25
 		 */
 		do_action( 'woocommerce_before_single_product_summary' );
 		?>
@@ -45,9 +48,7 @@ if ( post_password_required() ) {
 		/**
 		 * Hook: woocommerce_after_single_product_summary.
 		 *
-		 * @hooked woocommerce_output_product_data_tabs - 10
-		 * @hooked woocommerce_upsell_display - 15
-		 * @hooked woocommerce_output_related_products - 20
+		 * @hooked still_cup_output_product_details - 10
 		 */
 		do_action( 'woocommerce_after_single_product_summary' );
 		?>
