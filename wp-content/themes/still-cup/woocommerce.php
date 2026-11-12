@@ -8,7 +8,7 @@
 get_header();
 ?>
 
-<div class="sc-woo-page">
+<div class="mx-auto max-w-[calc(var(--sc-content-max)+2*var(--sc-gutter))] px-[var(--sc-gutter)] pt-6 pb-16">
 	<?php woocommerce_content(); ?>
 </div>
 

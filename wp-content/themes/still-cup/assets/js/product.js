@@ -10,6 +10,17 @@
 		return map[key] || '#CFCFC4';
 	}
 
+	var optionBase =
+		'inline-flex items-center justify-center min-h-touch cursor-pointer font-body text-primary border-0 bg-transparent';
+	var swatchBtn =
+		optionBase + ' flex-col gap-[0.35rem] min-w-touch p-0 text-[13px]';
+	var chipBtn =
+		optionBase + ' px-4 border border-border bg-surface text-[14px]';
+	var swatchVisual =
+		'block w-10 h-10 rounded-full border border-border box-border';
+	var nativeHidden =
+		'sc-variation-native absolute! w-px! h-px! p-0! -m-px! overflow-hidden! border-0!';
+
 	function enhanceVariations($form) {
 		$form.find('table.variations select').each(function () {
 			var $select = $(this);
@@ -24,51 +35,65 @@
 			if (!isFinish && !isCapacity) return;
 
 			$select.data('scEnhanced', true);
-			var $wrap = $('<div class="sc-variation-ui" role="listbox" />');
-			if (isFinish) $wrap.addClass('sc-variation-ui--finish');
-			if (isCapacity) $wrap.addClass('sc-variation-ui--capacity');
+			var $wrap = $('<div class="flex flex-wrap gap-3 my-2 mb-4" role="listbox" />');
 
 			$select.find('option').each(function () {
 				var value = $(this).attr('value');
 				if (!value) return;
 				var text = $(this).text();
-				var $btn = $('<button type="button" class="sc-variation-ui__option" />')
-					.attr('role', 'option')
-					.attr('aria-selected', $select.val() === value ? 'true' : 'false')
+				var selected = $select.val() === value;
+				var unavailable = $(this).is(':disabled');
+				var $btn = $('<button type="button" role="option" />')
+					.attr('aria-selected', selected ? 'true' : 'false')
 					.attr('data-value', value)
-					.attr('aria-label', text);
+					.attr('aria-label', text)
+					.toggleClass('is-selected', selected)
+					.toggleClass('is-unavailable', unavailable);
 
-				if (isFinish) {
-					$btn.addClass('sc-variation-ui__swatch');
-					$btn.css('--sc-swatch', finishColor(text));
-					$btn.append($('<span class="sc-variation-ui__swatch-visual" aria-hidden="true" />'));
-					$btn.append($('<span class="sc-variation-ui__swatch-label" />').text(text));
-				} else {
-					$btn.addClass('sc-variation-ui__chip').text(text);
+				if (unavailable) {
+					$btn.prop('disabled', true).attr('aria-disabled', 'true');
 				}
 
-				if ($select.val() === value) $btn.addClass('is-selected');
-				if ($(this).is(':disabled')) {
-					$btn.prop('disabled', true).addClass('is-unavailable').attr('aria-disabled', 'true');
+				if (isFinish) {
+					$btn.addClass(swatchBtn + ' sc-swatch');
+					$btn.append(
+						$('<span class="' + swatchVisual + ' sc-swatch-visual" aria-hidden="true" />').css(
+							'background',
+							finishColor(text)
+						)
+					);
+					$btn.append($('<span />').text(text));
+				} else {
+					$btn.addClass(chipBtn + ' sc-chip');
+					$btn.text(text);
 				}
 
 				$wrap.append($btn);
 			});
 
-			$select.addClass('sc-variation-ui__native').after($wrap);
+			$select.addClass(nativeHidden + ' absolute w-px h-px p-0 -m-px overflow-hidden border-0').css({
+				position: 'absolute',
+				width: '1px',
+				height: '1px',
+				padding: '0',
+				margin: '-1px',
+				overflow: 'hidden',
+				clip: 'rect(0, 0, 0, 0)',
+				border: '0',
+			}).after($wrap);
 
-			$wrap.on('click', '.sc-variation-ui__option', function () {
+			$wrap.on('click', 'button[role="option"]', function () {
 				var $btn = $(this);
 				if ($btn.prop('disabled')) return;
 				var value = $btn.data('value');
 				$select.val(String(value)).trigger('change');
-				$wrap.find('.sc-variation-ui__option').removeClass('is-selected').attr('aria-selected', 'false');
+				$wrap.find('button[role="option"]').removeClass('is-selected').attr('aria-selected', 'false');
 				$btn.addClass('is-selected').attr('aria-selected', 'true');
 			});
 
 			$select.on('change', function () {
 				var value = $select.val();
-				$wrap.find('.sc-variation-ui__option').each(function () {
+				$wrap.find('button[role="option"]').each(function () {
 					var on = String($(this).data('value')) === String(value);
 					$(this).toggleClass('is-selected', on).attr('aria-selected', on ? 'true' : 'false');
 				});
@@ -80,7 +105,7 @@
 		var root = document.querySelector('[data-sc-product-details]');
 		if (!root) return;
 
-		var rows = root.querySelectorAll('.sc-product-details__row');
+		var rows = root.querySelectorAll('.sc-details-row');
 
 		function isMobile() {
 			return window.matchMedia('(max-width: 1023px)').matches;
@@ -88,7 +113,7 @@
 
 		function applyMode() {
 			var mobile = isMobile();
-			root.classList.toggle('sc-product-details--accordion', mobile);
+			root.toggleAttribute('data-accordion', mobile);
 			rows.forEach(function (row, index) {
 				if (!mobile) {
 					row.setAttribute('open', '');
@@ -109,9 +134,9 @@
 			$form.on('woocommerce_update_variation_values reset_data', function () {
 				$form.find('table.variations select').each(function () {
 					var $select = $(this);
-					var $wrap = $select.next('.sc-variation-ui');
+					var $wrap = $select.next('[role="listbox"]');
 					if (!$wrap.length) return;
-					$wrap.find('.sc-variation-ui__option').each(function () {
+					$wrap.find('button[role="option"]').each(function () {
 						var value = String($(this).data('value'));
 						var $opt = $select.find('option[value="' + value.replace(/"/g, '\\"') + '"]');
 						var disabled = !$opt.length || $opt.is(':disabled');

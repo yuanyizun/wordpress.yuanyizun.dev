@@ -1,0 +1,43 @@
+/*
+ * Still Cup — Tailwind entry (full utility-first theme).
+ * Build: npm run build → assets/css/app.css
+ *
+ * Preflight omitted: custom base lives in overrides.css (WordPress/Woo friendly).
+ */
+
+@import "tailwindcss/theme" layer(theme);
+@import "tailwindcss/utilities" layer(utilities);
+
+@source "../../../**/*.{php,js}";
+
+@custom-variant desktop (@media (min-width: 1024px));
+@custom-variant sc-shop (&:where(body.sc-is-shop *));
+
+@theme {
+	--color-page: #f6f2eb;
+	--color-primary: #243a31;
+	--color-surface: #ffffff;
+	--color-hero: #e9e0d3;
+	--color-story: #dde2d7;
+	--color-border: #cfcfc4;
+	--color-summary: #e9e8df;
+	--color-muted: #59645d;
+	--color-sand: #cbb89e;
+	--color-olive: #7f8d70;
+	--color-chalk: #e5e0d7;
+	--color-inverse: #ffffff;
+
+	--font-display: "Newsreader", "Times New Roman", serif;
+	--font-body: "Inter", system-ui, sans-serif;
+
+	--breakpoint-desktop: 1024px;
+
+	--max-width-content: 1312px;
+	--max-width-prose-page: 42rem;
+
+	--spacing-touch: 44px;
+	--spacing-gutter: 20px;
+	--spacing-gutter-lg: 64px;
+}
+
+@import "./overrides.css";

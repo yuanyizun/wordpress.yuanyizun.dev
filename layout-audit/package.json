@@ -1,0 +1,8 @@
+{
+  "name": "layout-audit",
+  "private": true,
+  "description": "Screenshot layout audit. From this folder: node audit.mjs",
+  "dependencies": {
+    "playwright": "^1.49.0"
+  }
+}

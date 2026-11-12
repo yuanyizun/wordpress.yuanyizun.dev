@@ -9,13 +9,14 @@
 defined( 'ABSPATH' ) || exit;
 
 $count = WC()->cart ? (int) WC()->cart->get_cart_contents_count() : 0;
+$ghost = 'inline-flex items-center justify-center min-h-touch px-5 bg-transparent text-primary border border-border font-body text-[15px] no-underline cursor-pointer hover:opacity-[0.92]';
 
 do_action( 'woocommerce_before_cart' );
 ?>
-<div class="sc-bag">
-	<header class="sc-bag__header">
-		<h1 class="sc-bag__title"><?php esc_html_e( 'Your bag', 'still-cup' ); ?></h1>
-		<p class="sc-bag__subtitle">
+<div>
+	<header class="mb-8">
+		<h1 class="m-0 mb-2 font-display text-[clamp(2.25rem,6vw,3.75rem)] font-normal leading-[1.2]"><?php esc_html_e( 'Your bag', 'still-cup' ); ?></h1>
+		<p class="m-0 text-base">
 			<?php
 			echo esc_html(
 				$count === 1
@@ -30,12 +31,12 @@ do_action( 'woocommerce_before_cart' );
 		</p>
 	</header>
 
-	<div class="sc-bag__layout">
-		<div class="sc-bag__main">
-			<form class="woocommerce-cart-form sc-bag__form" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
+	<div class="grid gap-8 desktop:grid-cols-[minmax(0,1fr)_376px] desktop:gap-14 desktop:items-start">
+		<div>
+			<form class="woocommerce-cart-form" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
 				<?php do_action( 'woocommerce_before_cart_table' ); ?>
 
-				<ul class="sc-bag__items shop_table shop_table_responsive cart woocommerce-cart-form__contents" role="list">
+				<ul class="sc-bag-items shop_table shop_table_responsive cart woocommerce-cart-form__contents m-0 p-0 list-none grid gap-7" role="list">
 					<?php do_action( 'woocommerce_before_cart_contents' ); ?>
 
 					<?php
@@ -51,10 +52,10 @@ do_action( 'woocommerce_before_cart' );
 						$cart_item_name    = WC()->cart->get_item_product_name( $cart_item, $_product );
 						$product_name      = apply_filters( 'woocommerce_cart_item_name', $cart_item_name, $cart_item, $cart_item_key );
 						$product_permalink = apply_filters( 'woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink( $cart_item ) : '', $cart_item, $cart_item_key );
-						$thumbnail         = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image( 'woocommerce_thumbnail', array( 'class' => 'sc-bag__thumb-img' ) ), $cart_item, $cart_item_key );
+						$thumbnail         = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image( 'woocommerce_thumbnail', array( 'class' => 'w-full aspect-square object-cover bg-hero' ) ), $cart_item, $cart_item_key );
 						?>
-						<li class="sc-bag__item woocommerce-cart-form__cart-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
-							<div class="sc-bag__thumb">
+						<li class="grid grid-cols-[96px_1fr] desktop:grid-cols-[180px_minmax(0,1fr)_auto] gap-x-5 gap-y-4 desktop:gap-x-9 items-start woocommerce-cart-form__cart-item <?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
+							<div class="w-full aspect-square bg-hero">
 								<?php
 								if ( ! $product_permalink ) {
 									echo $thumbnail; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -64,13 +65,13 @@ do_action( 'woocommerce_before_cart' );
 								?>
 							</div>
 
-							<div class="sc-bag__info">
-								<p class="sc-bag__name" data-title="<?php esc_attr_e( 'Product', 'still-cup' ); ?>">
+							<div>
+								<p class="m-0 mb-[0.35rem] font-display text-[1.25rem] desktop:text-[1.75rem] leading-[1.25]" data-title="<?php esc_attr_e( 'Product', 'still-cup' ); ?>">
 									<?php
 									if ( ! $product_permalink ) {
 										echo wp_kses_post( $product_name );
 									} else {
-										echo wp_kses_post( apply_filters( 'woocommerce_cart_item_name', sprintf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $cart_item_name ), $cart_item, $cart_item_key ) );
+										echo wp_kses_post( apply_filters( 'woocommerce_cart_item_name', sprintf( '<a class="no-underline" href="%s">%s</a>', esc_url( $product_permalink ), $cart_item_name ), $cart_item, $cart_item_key ) );
 									}
 									?>
 								</p>
@@ -79,8 +80,8 @@ do_action( 'woocommerce_before_cart' );
 								echo wc_get_formatted_cart_item_data( $cart_item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 								?>
 
-								<div class="sc-bag__controls">
-									<div class="sc-bag__qty product-quantity" data-title="<?php esc_attr_e( 'Quantity', 'still-cup' ); ?>">
+								<div class="flex flex-wrap items-center gap-x-6 gap-y-4 mt-3">
+									<div class="product-quantity" data-title="<?php esc_attr_e( 'Quantity', 'still-cup' ); ?>">
 										<?php
 										if ( $_product->is_sold_individually() ) {
 											$min_quantity = 1;
@@ -110,7 +111,7 @@ do_action( 'woocommerce_before_cart' );
 									echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 										'woocommerce_cart_item_remove_link',
 										sprintf(
-											'<a href="%s" class="sc-bag__remove remove" aria-label="%s" data-product_id="%s" data-product_sku="%s">%s</a>',
+											'<a href="%s" class="remove text-[14px] underline underline-offset-[0.2em] !text-primary !w-auto !h-auto !border-0 !bg-transparent !opacity-100 !inline !leading-[1.4] hover:!opacity-85 hover:!text-primary" aria-label="%s" data-product_id="%s" data-product_sku="%s">%s</a>',
 											esc_url( wc_get_cart_remove_url( $cart_item_key ) ),
 											esc_attr( sprintf( __( 'Remove %s from bag', 'still-cup' ), wp_strip_all_tags( $product_name ) ) ),
 											esc_attr( $product_id ),
@@ -123,7 +124,7 @@ do_action( 'woocommerce_before_cart' );
 								</div>
 							</div>
 
-							<div class="sc-bag__price product-subtotal" data-title="<?php esc_attr_e( 'Subtotal', 'still-cup' ); ?>">
+							<div class="col-start-2 desktop:col-auto text-[1.125rem] desktop:text-[1.25rem] desktop:justify-self-end product-subtotal" data-title="<?php esc_attr_e( 'Subtotal', 'still-cup' ); ?>">
 								<?php echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 							</div>
 						</li>
@@ -135,8 +136,8 @@ do_action( 'woocommerce_before_cart' );
 					<?php do_action( 'woocommerce_after_cart_contents' ); ?>
 				</ul>
 
-				<div class="sc-bag__actions actions">
-					<button type="submit" class="button sc-bag__update<?php echo esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>" name="update_cart" value="<?php esc_attr_e( 'Update bag', 'still-cup' ); ?>">
+				<div class="actions mt-4">
+					<button type="submit" class="button !hidden<?php echo esc_attr( wc_wp_theme_get_element_class_name( 'button' ) ? ' ' . wc_wp_theme_get_element_class_name( 'button' ) : '' ); ?>" name="update_cart" value="<?php esc_attr_e( 'Update bag', 'still-cup' ); ?>">
 						<?php esc_html_e( 'Update bag', 'still-cup' ); ?>
 					</button>
 					<?php do_action( 'woocommerce_cart_actions' ); ?>
@@ -148,18 +149,18 @@ do_action( 'woocommerce_before_cart' );
 
 			<?php still_cup_bag_threshold_message(); ?>
 
-			<p class="sc-bag__continue">
-				<a class="sc-button sc-button--ghost" href="<?php echo esc_url( still_cup_shop_url() ); ?>">
+			<p class="mb-6">
+				<a class="<?php echo esc_attr( $ghost ); ?>" href="<?php echo esc_url( still_cup_shop_url() ); ?>">
 					<?php esc_html_e( '← Continue shopping', 'still-cup' ); ?>
 				</a>
 			</p>
 
-			<p class="sc-bag__tax-note"><?php esc_html_e( 'Prices include applicable tax. Final shipping confirmed at checkout.', 'still-cup' ); ?></p>
+			<p class="m-0 text-[14px] text-muted"><?php esc_html_e( 'Prices include applicable tax. Final shipping confirmed at checkout.', 'still-cup' ); ?></p>
 		</div>
 
 		<?php do_action( 'woocommerce_before_cart_collaterals' ); ?>
 
-		<aside class="cart-collaterals sc-bag__aside">
+		<aside class="cart-collaterals !float-none !w-full desktop:!w-[376px] !m-0">
 			<?php
 			/**
 			 * Cart collaterals hook.

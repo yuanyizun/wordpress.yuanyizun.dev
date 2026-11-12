@@ -78,7 +78,7 @@ remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 3
  * Theme Woo wrappers.
  */
 function still_cup_woo_wrapper_start(): void {
-	echo '<div class="sc-woo">';
+	echo '<div class="contents">';
 }
 function still_cup_woo_wrapper_end(): void {
 	echo '</div>';
@@ -225,16 +225,21 @@ function still_cup_shop_toolbar(): void {
 	$current_slug = is_product_category() ? get_queried_object()->slug : '';
 	$orderby      = isset( $_GET['orderby'] ) ? wc_clean( wp_unslash( (string) $_GET['orderby'] ) ) : 'menu_order'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	?>
-	<div class="sc-shop-toolbar">
-		<div class="sc-shop-filters" role="navigation" aria-label="<?php esc_attr_e( 'Product categories', 'still-cup' ); ?>">
-			<?php foreach ( $cats as $cat ) : ?>
-				<?php
+	<div class="grid gap-4 desktop:grid-cols-[minmax(0,480px)_260px] desktop:justify-between desktop:items-center mb-4 desktop:mb-5">
+		<div class="flex flex-wrap items-center gap-0 min-h-[52px] px-5 border border-border bg-surface" role="navigation" aria-label="<?php esc_attr_e( 'Product categories', 'still-cup' ); ?>">
+			<?php
+			$filter_i = 0;
+			foreach ( $cats as $cat ) :
 				$is_all = ! empty( $cat['all'] );
 				$active = ( $is_all && $current_slug === '' && ( is_shop() || is_post_type_archive( 'product' ) ) )
 					|| ( ! $is_all && $cat['slug'] !== '' && $cat['slug'] === $current_slug );
+				if ( $filter_i > 0 ) {
+					echo '<span class="mx-[0.55rem] opacity-55" aria-hidden="true">/</span>';
+				}
+				++$filter_i;
 				?>
 				<a
-					class="sc-shop-filters__link<?php echo $active ? ' is-active' : ''; ?>"
+					class="inline-flex items-center min-h-touch text-[15px] no-underline text-primary<?php echo $active ? ' underline underline-offset-[0.2em]' : ''; ?>"
 					href="<?php echo esc_url( $cat['url'] ); ?>"
 					<?php echo $active ? ' aria-current="page"' : ''; ?>
 				>
@@ -242,15 +247,16 @@ function still_cup_shop_toolbar(): void {
 				</a>
 			<?php endforeach; ?>
 			<?php if ( $current_slug !== '' ) : ?>
-				<a class="sc-shop-filters__reset" href="<?php echo esc_url( $shop_url ); ?>">
+				<span class="mx-[0.55rem] opacity-55" aria-hidden="true">/</span>
+				<a class="inline-flex items-center min-h-touch text-[15px] no-underline text-primary" href="<?php echo esc_url( $shop_url ); ?>">
 					<?php esc_html_e( 'Reset', 'still-cup' ); ?>
 				</a>
 			<?php endif; ?>
 		</div>
 
-		<form class="sc-shop-sort" method="get" action="">
-			<label class="sc-shop-sort__label" for="sc-orderby"><?php esc_html_e( 'Sort', 'still-cup' ); ?></label>
-			<select name="orderby" id="sc-orderby" class="sc-shop-sort__select" onchange="this.form.submit()">
+		<form class="relative flex items-stretch min-h-[52px] border border-border bg-surface" method="get" action="">
+			<label class="sr-only" for="sc-orderby"><?php esc_html_e( 'Sort', 'still-cup' ); ?></label>
+			<select name="orderby" id="sc-orderby" class="w-full min-h-[52px] px-5 border-0 bg-transparent font-body text-[15px] text-primary" onchange="this.form.submit()">
 				<?php
 				$options = array(
 					'menu_order' => __( 'Featured', 'still-cup' ),
@@ -398,10 +404,10 @@ function still_cup_shop_intro(): void {
 		return;
 	}
 	?>
-	<header class="sc-shop-intro woocommerce-products-header">
-		<p class="sc-shop-intro__eyebrow"><?php esc_html_e( 'The collection', 'still-cup' ); ?></p>
-		<h1 class="woocommerce-products-header__title page-title"><?php woocommerce_page_title(); ?></h1>
-		<p class="sc-shop-intro__text"><?php esc_html_e( 'A small collection, made for everyday moments.', 'still-cup' ); ?></p>
+	<header class="woocommerce-products-header mb-7">
+		<p class="m-0 mb-3 text-[12px] tracking-[0.02em]"><?php esc_html_e( 'The collection', 'still-cup' ); ?></p>
+		<h1 class="woocommerce-products-header__title page-title m-0 mb-3 font-display text-[clamp(2rem,5vw,3.875rem)] font-normal leading-[1.2]"><?php woocommerce_page_title(); ?></h1>
+		<p class="m-0 text-base desktop:text-[18px] max-w-[40rem]"><?php esc_html_e( 'A small collection, made for everyday moments.', 'still-cup' ); ?></p>
 	</header>
 	<?php
 }
@@ -417,7 +423,7 @@ function still_cup_product_breadcrumb(): void {
 	woocommerce_breadcrumb(
 		array(
 			'delimiter'   => ' / ',
-			'wrap_before' => '<nav class="sc-breadcrumb woocommerce-breadcrumb" aria-label="' . esc_attr__( 'Breadcrumb', 'still-cup' ) . '">',
+			'wrap_before' => '<nav class="woocommerce-breadcrumb desktop:col-span-2 text-[12px] desktop:text-[13px] m-0 mb-4 desktop:mb-6" aria-label="' . esc_attr__( 'Breadcrumb', 'still-cup' ) . '">',
 			'wrap_after'  => '</nav>',
 		)
 	);
@@ -436,7 +442,7 @@ function still_cup_product_collection_label(): void {
 	if ( $label === '' ) {
 		return;
 	}
-	echo '<p class="sc-product__collection">' . esc_html( $label ) . '</p>';
+	echo '<p class="m-0 mb-2 text-[12px] tracking-[0.06em] uppercase">' . esc_html( $label ) . '</p>';
 }
 add_action( 'woocommerce_single_product_summary', 'still_cup_product_collection_label', 4 );
 
@@ -468,7 +474,7 @@ function still_cup_product_collection_text( WC_Product $product ): string {
  * Photo caption under gallery.
  */
 function still_cup_product_photo_note(): void {
-	echo '<p class="sc-product__photo-note">' . esc_html__( 'Photography reflects the product shape, texture and tone.', 'still-cup' ) . '</p>';
+	echo '<p class="m-0 mt-3 text-[13px]">' . esc_html__( 'Photography reflects the product shape, texture and tone.', 'still-cup' ) . '</p>';
 }
 add_action( 'woocommerce_before_single_product_summary', 'still_cup_product_photo_note', 25 );
 
@@ -476,7 +482,7 @@ add_action( 'woocommerce_before_single_product_summary', 'still_cup_product_phot
  * Shipping policy under add-to-bag.
  */
 function still_cup_product_shipping_note(): void {
-	echo '<p class="sc-product__shipping-note">' . esc_html__( '$9.95 standard shipping · free over $100. Australia-wide.', 'still-cup' ) . '</p>';
+	echo '<p class="m-0 mt-3 text-[14px]">' . esc_html__( '$9.95 standard shipping · free over $100. Australia-wide.', 'still-cup' ) . '</p>';
 }
 add_action( 'woocommerce_single_product_summary', 'still_cup_product_shipping_note', 35 );
 
@@ -488,7 +494,7 @@ function still_cup_product_stock_message(): void {
 	if ( ! $product instanceof WC_Product || ! $product->is_in_stock() ) {
 		return;
 	}
-	echo '<p class="sc-product__stock">' . esc_html__( 'In stock · Ready to dispatch in 2–3 business days.', 'still-cup' ) . '</p>';
+	echo '<p class="m-0 my-3 text-[14px]">' . esc_html__( 'In stock · Ready to dispatch in 2–3 business days.', 'still-cup' ) . '</p>';
 }
 add_action( 'woocommerce_single_product_summary', 'still_cup_product_stock_message', 25 );
 
@@ -617,12 +623,12 @@ function still_cup_bag_threshold_message(): void {
 	}
 
 	if ( $subtotal >= $threshold ) {
-		echo '<p class="sc-bag__threshold">' . esc_html__( 'You’ve unlocked free standard shipping.', 'still-cup' ) . '</p>';
+		echo '<p class="my-6 mb-4 text-base">' . esc_html__( 'You’ve unlocked free standard shipping.', 'still-cup' ) . '</p>';
 		return;
 	}
 
 	$remaining = $threshold - $subtotal;
-	echo '<p class="sc-bag__threshold">' . esc_html(
+	echo '<p class="my-6 mb-4 text-base">' . esc_html(
 		sprintf(
 			/* translators: %s: formatted remaining amount */
 			__( 'You’re %s away from free shipping.', 'still-cup' ),
@@ -680,7 +686,7 @@ function still_cup_add_to_cart_message_html( string $message, $products, bool $s
 		);
 
 	return sprintf(
-		'<span class="sc-notice__text">%1$s</span> <a href="%2$s" class="sc-notice__link" tabindex="1">%3$s</a>',
+		'<span class="flex-auto">%1$s</span> <a href="%2$s" class="shrink-0 text-[15px] underline underline-offset-[0.2em] text-primary whitespace-nowrap hover:opacity-85" tabindex="1">%3$s</a>',
 		wp_kses_post( $added ),
 		esc_url( wc_get_cart_url() ),
 		esc_html__( 'View bag', 'still-cup' )

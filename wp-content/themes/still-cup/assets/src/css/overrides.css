@@ -1,0 +1,451 @@
+/*
+ * Still Cup — minimal leftovers that utilities cannot express:
+ * tokens, base reset, body hooks, Woo third-party markup, JS state.
+ */
+
+:root {
+	--sc-color-page: #f6f2eb;
+	--sc-color-primary: #243a31;
+	--sc-color-surface: #ffffff;
+	--sc-color-hero: #e9e0d3;
+	--sc-color-story: #dde2d7;
+	--sc-color-border: #cfcfc4;
+	--sc-color-summary: #e9e8df;
+	--sc-color-muted: #59645d;
+	--sc-color-sand: #cbb89e;
+	--sc-color-olive: #7f8d70;
+	--sc-color-chalk: #e5e0d7;
+	--sc-color-inverse: #ffffff;
+	--sc-font-display: "Newsreader", "Times New Roman", serif;
+	--sc-font-body: "Inter", system-ui, sans-serif;
+	--sc-gutter: 20px;
+	--sc-content-max: 1312px;
+	--sc-bp: 1024px;
+	--sc-touch: 44px;
+	--sc-line: 1.5;
+}
+
+@media (min-width: 1024px) {
+	:root {
+		--sc-gutter: 64px;
+	}
+}
+
+/*
+ * Base reset lives in @layer base so Tailwind utilities (e.g. text-inverse on
+ * <a class="bg-primary text-inverse">) win over element selectors like `a`.
+ * Unlayered rules below still beat utilities — use that for Woo leftovers.
+ */
+@layer base {
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		margin: 0;
+		min-height: 100vh;
+		min-height: 100dvh;
+		display: flex;
+		flex-direction: column;
+		background: var(--sc-color-page);
+		color: var(--sc-color-primary);
+		font-family: var(--sc-font-body);
+		font-size: 16px;
+		line-height: var(--sc-line);
+		-webkit-font-smoothing: antialiased;
+	}
+
+	main {
+		flex: 1 0 auto;
+	}
+
+	img {
+		max-width: 100%;
+		height: auto;
+		display: block;
+	}
+
+	a {
+		color: inherit;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.2em;
+	}
+
+	a:hover {
+		opacity: 0.85;
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--sc-color-primary);
+		outline-offset: 3px;
+	}
+}
+
+/*
+ * WordPress global-styles emits unlayered
+ * `a:where(:not(.wp-element-button)) { color: … }` which beats @layer utilities.
+ * Bridge text-* utilities on anchors so CTAs/footer links stay visible.
+ */
+a.text-inverse {
+	color: var(--sc-color-inverse);
+}
+
+a.text-primary {
+	color: var(--sc-color-primary);
+}
+
+a.text-muted {
+	color: var(--sc-color-muted);
+}
+
+a.text-inherit {
+	color: inherit;
+}
+
+body.sc-menu-open {
+	overflow: hidden;
+}
+
+body.sc-has-header-rule .sc-header-inner {
+	border-bottom: 1px solid var(--sc-color-border);
+	padding-bottom: 1rem;
+}
+
+/* —— Product details accordion (mobile) —— */
+
+[data-sc-product-details][data-accordion] .sc-details-value {
+	display: none;
+}
+
+[data-sc-product-details][data-accordion] .sc-details-panel {
+	display: block;
+}
+
+[data-sc-product-details][data-accordion] .sc-details-summary {
+	grid-template-columns: minmax(0, 1fr) auto;
+	cursor: pointer;
+}
+
+[data-sc-product-details][data-accordion] .sc-details-summary::after {
+	content: "+";
+	justify-self: end;
+	font-size: 18px;
+}
+
+[data-sc-product-details][data-accordion] .sc-details-row[open] .sc-details-summary::after {
+	content: "–";
+}
+
+.sc-details-summary::-webkit-details-marker {
+	display: none;
+}
+
+/* —— Variation UI (JS-generated state) —— */
+
+.sc-swatch.is-selected .sc-swatch-visual {
+	outline: 3px solid var(--sc-color-primary);
+	outline-offset: 2px;
+}
+
+.sc-swatch.is-unavailable,
+.sc-chip.is-unavailable {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.sc-chip.is-selected {
+	border-color: var(--sc-color-primary);
+	outline: 2px solid var(--sc-color-primary);
+	outline-offset: 1px;
+}
+
+.sc-chip.is-unavailable {
+	text-decoration: line-through;
+}
+
+/* —— WooCommerce: floats, notices, forms, shop grid —— */
+
+.woocommerce div.product p.price,
+.woocommerce div.product span.price,
+.woocommerce ul.products li.product .price,
+.price,
+.amount,
+.woocommerce-Price-amount {
+	color: var(--sc-color-primary) !important;
+}
+
+.woocommerce-message,
+.woocommerce-info,
+.woocommerce-error,
+.woocommerce-noreviews,
+p.no-comments {
+	display: flex !important;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem 1.5rem;
+	background: var(--sc-color-summary) !important;
+	border-top: 0 !important;
+	border: 1px solid var(--sc-color-border) !important;
+	border-radius: 0 !important;
+	color: var(--sc-color-primary) !important;
+	padding: 0.9rem 1.25rem !important;
+	margin: 0 0 1.25rem !important;
+	list-style: none !important;
+	font-size: 15px;
+	line-height: 1.4;
+}
+
+.woocommerce-message::before,
+.woocommerce-info::before,
+.woocommerce-error::before {
+	display: none !important;
+	content: none !important;
+}
+
+.woocommerce-message .button,
+.woocommerce-info .button,
+.woocommerce-error .button {
+	float: none !important;
+	margin: 0 !important;
+}
+
+ul.products {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1.5rem 0.875rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	clear: both;
+}
+
+ul.products::before,
+ul.products::after {
+	display: none !important;
+}
+
+ul.products li.product {
+	width: auto !important;
+	margin: 0 !important;
+	float: none !important;
+}
+
+@media (max-width: 359px) {
+	ul.products {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (min-width: 1024px) {
+	ul.products {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 2rem 1.4rem;
+	}
+}
+
+.sc-product .woocommerce-product-gallery {
+	width: 100% !important;
+	float: none !important;
+	margin: 0;
+}
+
+.sc-product .woocommerce-product-gallery__image img {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+}
+
+.sc-product .product_title {
+	font-family: var(--sc-font-display);
+	font-size: clamp(2rem, 5vw, 3.5rem);
+	font-weight: 400;
+	margin: 0 0 0.75rem;
+	line-height: 1.2;
+}
+
+.sc-product .price {
+	font-size: 1.375rem;
+	margin: 0 0 1rem;
+}
+
+.sc-product .woocommerce-product-details__short-description {
+	font-size: 16px;
+	margin-bottom: 1.25rem;
+	line-height: 1.5;
+}
+
+.sc-product form.cart {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	gap: 0.75rem;
+	margin-top: 0.5rem;
+}
+
+.sc-product form.cart .quantity {
+	margin: 0;
+}
+
+.woocommerce .quantity .qty,
+.woocommerce form .input-text {
+	min-height: 52px;
+	width: 4.5rem;
+	font-size: 16px;
+	padding: 0.4rem 0.6rem;
+	border: 1px solid var(--sc-color-border);
+	background: var(--sc-color-surface);
+	color: var(--sc-color-primary);
+	text-align: center;
+}
+
+.sc-product .single_add_to_cart_button,
+.woocommerce button.button,
+.woocommerce a.button,
+.woocommerce #respond input#submit {
+	min-height: 52px;
+	padding: 0 1.25rem;
+	background: var(--sc-color-primary) !important;
+	color: var(--sc-color-inverse) !important;
+	border: 0;
+	border-radius: 0;
+	font-weight: 400;
+}
+
+.sc-product .single_add_to_cart_button {
+	flex: 1 1 12rem;
+}
+
+@media (min-width: 1024px) {
+	.sc-product .product_title {
+		font-size: 56px;
+	}
+
+	.sc-product .price {
+		font-size: 24px;
+	}
+
+	.sc-product .woocommerce-product-details__short-description {
+		font-size: 17px;
+	}
+}
+
+/* Bag: kill Woo float cart chrome */
+body.sc-is-bag .woocommerce,
+body.sc-is-checkout .woocommerce {
+	max-width: none;
+}
+
+.woocommerce ul.sc-bag-items.shop_table,
+.woocommerce-page ul.sc-bag-items.shop_table {
+	display: grid !important;
+	width: 100% !important;
+	border: 0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+body.sc-is-bag .cart-collaterals,
+body.sc-is-bag .cart_totals {
+	float: none !important;
+	width: 100% !important;
+	max-width: none !important;
+	margin: 0 !important;
+}
+
+.sc-bag-summary table.shop_table th,
+.sc-bag-summary table.shop_table td,
+body.sc-is-bag .cart_totals table.shop_table th,
+body.sc-is-bag .cart_totals table.shop_table td {
+	display: table-cell !important;
+	border: 0 !important;
+	padding: 0.55rem 0 !important;
+	font-weight: 400;
+	background: transparent !important;
+	vertical-align: top;
+}
+
+.sc-bag-summary table.shop_table th,
+body.sc-is-bag .cart_totals table.shop_table th {
+	text-align: left;
+	padding-right: 1rem !important;
+}
+
+.sc-bag-summary table.shop_table td,
+body.sc-is-bag .cart_totals table.shop_table td {
+	text-align: right;
+}
+
+.sc-bag-summary table.shop_table td::before,
+body.sc-is-bag .cart_totals table.shop_table td::before {
+	display: none !important;
+	content: none !important;
+}
+
+.sc-bag-summary .order-total th,
+.sc-bag-summary .order-total td {
+	padding-top: 1rem !important;
+	font-size: 1.125rem;
+}
+
+body.sc-is-bag .product-quantity .quantity {
+	display: inline-flex;
+	align-items: center;
+	min-height: 52px;
+	border: 1px solid var(--sc-color-border);
+	background: var(--sc-color-surface);
+	padding: 0 0.35rem;
+}
+
+body.sc-is-bag .product-quantity .quantity .qty {
+	width: 3.25rem;
+	min-height: 48px;
+	border: 0;
+	background: transparent;
+	text-align: center;
+	font-size: 15px;
+}
+
+body.sc-is-bag .woocommerce-cart-form__cart-item .variation {
+	margin: 0 0 0.75rem;
+	font-size: 15px;
+	padding: 0;
+	border: 0;
+}
+
+body.sc-is-bag .woocommerce-cart-form__cart-item .variation dt,
+body.sc-is-bag .woocommerce-cart-form__cart-item .variation dd {
+	display: inline;
+	margin: 0;
+	float: none;
+}
+
+body.sc-is-bag .woocommerce-cart-form__cart-item .variation dd::after {
+	content: "";
+	display: block;
+}
+
+.woocommerce form .form-row input.input-text,
+.woocommerce form .form-row textarea,
+.woocommerce form .form-row select {
+	font-size: 16px;
+	min-height: var(--sc-touch);
+	border-radius: 0;
+	border-color: var(--sc-color-border);
+}
+
+.woocommerce-checkout #payment {
+	background: transparent;
+	border-radius: 0;
+}
+
+.woocommerce-checkout #payment div.payment_box {
+	background: var(--sc-color-surface);
+	border: 1px solid var(--sc-color-border);
+}

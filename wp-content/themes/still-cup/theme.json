@@ -56,7 +56,7 @@
 			},
 			"link": {
 				"color": {
-					"text": "var(--wp--preset--color--primary)"
+					"text": "inherit"
 				}
 			}
 		}

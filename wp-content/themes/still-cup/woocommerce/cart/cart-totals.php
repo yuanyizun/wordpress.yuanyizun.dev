@@ -12,13 +12,13 @@ $shipping_live     = WC()->cart->needs_shipping() && WC()->cart->show_shipping()
 $estimate_shipping = (float) apply_filters( 'still_cup_estimated_shipping', 9.95 );
 $using_estimate    = ! $shipping_live;
 ?>
-<div class="cart_totals sc-bag-summary <?php echo ( WC()->customer->has_calculated_shipping() ) ? 'calculated_shipping' : ''; ?>">
+<div class="cart_totals sc-bag-summary !float-none !w-full !max-w-none !m-0 bg-summary box-border px-5 py-7 desktop:p-7 <?php echo ( WC()->customer->has_calculated_shipping() ) ? 'calculated_shipping' : ''; ?>">
 
 	<?php do_action( 'woocommerce_before_cart_totals' ); ?>
 
-	<h2 class="sc-bag-summary__title"><?php esc_html_e( 'Order summary', 'still-cup' ); ?></h2>
+	<h2 class="font-display font-normal text-[1.75rem] m-0 mb-5"><?php esc_html_e( 'Order summary', 'still-cup' ); ?></h2>
 
-	<table cellspacing="0" class="shop_table sc-bag-summary__table">
+	<table cellspacing="0" class="shop_table !table !w-full !border-0 !m-0 mb-6">
 
 		<tr class="cart-subtotal">
 			<th><?php esc_html_e( 'Subtotal', 'still-cup' ); ?></th>
@@ -46,7 +46,7 @@ $using_estimate    = ! $shipping_live;
 				<th><?php esc_html_e( 'Standard shipping', 'still-cup' ); ?></th>
 				<td data-title="<?php esc_attr_e( 'Shipping', 'still-cup' ); ?>">
 					<?php echo wp_kses_post( wc_price( $estimate_shipping ) ); ?>
-					<small class="sc-bag-summary__note"><?php esc_html_e( 'Estimate · confirmed at checkout', 'still-cup' ); ?></small>
+					<small class="block mt-1 text-[13px] text-right"><?php esc_html_e( 'Estimate · confirmed at checkout', 'still-cup' ); ?></small>
 				</td>
 			</tr>
 
@@ -116,7 +116,7 @@ $using_estimate    = ! $shipping_live;
 
 	</table>
 
-	<div class="wc-proceed-to-checkout">
+	<div class="wc-proceed-to-checkout !p-0">
 		<?php do_action( 'woocommerce_proceed_to_checkout' ); ?>
 	</div>
 

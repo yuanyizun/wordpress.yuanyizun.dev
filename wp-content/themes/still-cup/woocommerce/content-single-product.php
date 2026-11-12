@@ -17,11 +17,11 @@ if ( post_password_required() ) {
 	return;
 }
 ?>
-<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'sc-product', $product ); ?>>
+<div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'sc-product grid gap-5 desktop:grid-cols-[minmax(0,690px)_minmax(0,1fr)] desktop:gap-x-[4.1rem] desktop:gap-y-5 desktop:items-start', $product ); ?>>
 
 	<?php still_cup_product_breadcrumb(); ?>
 
-	<div class="sc-product__gallery">
+	<div class="sc-product-gallery w-full">
 		<?php
 		/**
 		 * Hook: woocommerce_before_single_product_summary.
@@ -34,7 +34,7 @@ if ( post_password_required() ) {
 		?>
 	</div>
 
-	<div class="sc-product__summary summary entry-summary">
+	<div class="summary entry-summary w-full !float-none !m-0">
 		<?php
 		/**
 		 * Hook: woocommerce_single_product_summary.
@@ -43,7 +43,7 @@ if ( post_password_required() ) {
 		?>
 	</div>
 
-	<div class="sc-product__details" data-sc-details>
+	<div class="desktop:col-span-2 desktop:mt-8" data-sc-details>
 		<?php
 		/**
 		 * Hook: woocommerce_after_single_product_summary.

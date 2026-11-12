@@ -19,6 +19,7 @@ node_modules/
 vendor/
 .npm/
 .wp-cli/
+layout-audit/layout-report/
 
 # OS / editor
 .DS_Store

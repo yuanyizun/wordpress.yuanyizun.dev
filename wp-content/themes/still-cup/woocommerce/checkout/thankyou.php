@@ -7,9 +7,13 @@
  */
 
 defined( 'ABSPATH' ) || exit;
+
+$btn       = 'inline-flex items-center justify-center min-h-touch px-5 border-0 bg-primary text-inverse font-body text-[15px] no-underline cursor-pointer hover:opacity-[0.92] hover:text-inverse';
+$btn_ghost = 'inline-flex items-center justify-center min-h-touch px-5 bg-transparent text-primary border border-border font-body text-[15px] no-underline cursor-pointer';
+$notice    = 'font-display text-[clamp(1.75rem,4vw,2.5rem)] leading-[1.25]';
 ?>
 
-<div class="woocommerce-order sc-order-result">
+<div class="woocommerce-order max-w-[40rem]">
 
 	<?php
 	if ( $order ) :
@@ -19,23 +23,23 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php if ( $order->has_status( 'failed' ) ) : ?>
 
-			<p class="woocommerce-notice woocommerce-notice--error woocommerce-thankyou-order-failed sc-order-result__notice">
+			<p class="woocommerce-notice woocommerce-notice--error woocommerce-thankyou-order-failed <?php echo esc_attr( $notice ); ?>">
 				<?php esc_html_e( 'Your payment could not be completed. Please try again or choose another method.', 'still-cup' ); ?>
 			</p>
 
 			<p class="woocommerce-notice woocommerce-notice--error woocommerce-thankyou-order-failed-actions">
-				<a href="<?php echo esc_url( $order->get_checkout_payment_url() ); ?>" class="button pay sc-button"><?php esc_html_e( 'Try again', 'still-cup' ); ?></a>
+				<a href="<?php echo esc_url( $order->get_checkout_payment_url() ); ?>" class="button pay <?php echo esc_attr( $btn ); ?>"><?php esc_html_e( 'Try again', 'still-cup' ); ?></a>
 				<?php if ( is_user_logged_in() ) : ?>
-					<a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" class="button pay sc-button sc-button--ghost"><?php esc_html_e( 'My account', 'still-cup' ); ?></a>
+					<a href="<?php echo esc_url( wc_get_page_permalink( 'myaccount' ) ); ?>" class="button pay <?php echo esc_attr( $btn_ghost ); ?>"><?php esc_html_e( 'My account', 'still-cup' ); ?></a>
 				<?php endif; ?>
 			</p>
 
 		<?php elseif ( ! $order->has_status( array( 'completed', 'processing' ) ) && ! $order->is_paid() ) : ?>
 
-			<p class="woocommerce-notice woocommerce-notice--info sc-order-result__notice">
+			<p class="woocommerce-notice woocommerce-notice--info <?php echo esc_attr( $notice ); ?>">
 				<?php esc_html_e( 'Your order is received and payment confirmation is still pending. We will email you when it is confirmed.', 'still-cup' ); ?>
 			</p>
-			<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details sc-order-result__overview">
+			<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details m-0 my-6 p-0 list-none grid gap-3">
 				<li class="woocommerce-order-overview__order order">
 					<?php esc_html_e( 'Order number:', 'woocommerce' ); ?>
 					<strong><?php echo esc_html( $order->get_order_number() ); ?></strong>
@@ -44,17 +48,17 @@ defined( 'ABSPATH' ) || exit;
 
 		<?php else : ?>
 
-			<p class="woocommerce-notice woocommerce-notice--success sc-order-result__notice">
+			<p class="woocommerce-notice woocommerce-notice--success <?php echo esc_attr( $notice ); ?>">
 				<?php esc_html_e( 'Thank you. Your order is confirmed.', 'still-cup' ); ?>
 			</p>
-			<p class="sc-order-result__email">
+			<p>
 				<?php esc_html_e( 'A confirmation email is on its way with your order details.', 'still-cup' ); ?>
 			</p>
-			<p class="sc-order-result__dispatch">
+			<p>
 				<?php esc_html_e( 'Dispatch estimate: 2–3 business days, then standard delivery about 3–7 business days (Australia).', 'still-cup' ); ?>
 			</p>
 
-			<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details sc-order-result__overview">
+			<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details m-0 my-6 p-0 list-none grid gap-3">
 				<li class="woocommerce-order-overview__order order">
 					<?php esc_html_e( 'Order number:', 'woocommerce' ); ?>
 					<strong><?php echo esc_html( $order->get_order_number() ); ?></strong>
@@ -88,7 +92,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<?php else : ?>
 
-		<p class="woocommerce-notice woocommerce-notice--success sc-order-result__notice">
+		<p class="woocommerce-notice woocommerce-notice--success <?php echo esc_attr( $notice ); ?>">
 			<?php echo esc_html( apply_filters( 'woocommerce_thankyou_order_received_text', __( 'Thank you. Your order has been received.', 'woocommerce' ), null ) ); ?>
 		</p>
 

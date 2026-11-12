@@ -1,47 +1,40 @@
 # Still Cup — site chrome
 
-Theme: `wp-content/themes/still-cup` (v0.1.0)
+Theme: `wp-content/themes/still-cup` (v0.4.2)
+
+Chrome markup uses **Tailwind utilities** (see `tailwind.md`). Built CSS: `assets/css/app.css`.
 
 ## Tokens
 
-CSS variables on `:root` in `assets/css/main.css` (mirrored in `theme.json` palette):
+`:root` in `assets/src/css/overrides.css` (mirrored in `theme.json` + `@theme`):
 
 | Token | Value | Role |
 |---|---|---|
 | `--sc-color-page` | `#F6F2EB` | Page background |
 | `--sc-color-primary` | `#243A31` | Text, buttons, announcement/footer |
-| `--sc-color-hero` | `#E9E0D3` | Hero surfaces (later templates) |
-| `--sc-color-story` | `#DDE2D7` | Story band (later) |
+| `--sc-color-hero` | `#E9E0D3` | Hero surfaces |
+| `--sc-color-story` | `#DDE2D7` | Story band |
 | `--sc-color-border` | `#CFCFC4` | Dividers / field borders |
-| `--sc-color-summary` | `#E9E8DF` | Order summary (later) |
+| `--sc-color-summary` | `#E9E8DF` | Order summary |
 | `--sc-color-muted` | `#59645D` | Muted text |
 | `--sc-color-sand/olive/chalk` | `#CBB89E` / `#7F8D70` / `#E5E0D7` | Finish swatches |
 | `--sc-gutter` | 20px / 64px ≥1024 | Side gutters |
-| `--sc-bp` | 1024px | Nav / layout switch |
 | `--sc-touch` | 44px | Minimum control size |
 
-Fonts: **Newsreader** (wordmark/headings), **Inter** (UI/body). Body line-height 1.5; inputs ≥16px.
+Fonts: **Newsreader** (wordmark/headings), **Inter** (UI/body).
+
+`theme.json` link colour is **inherit** (not primary) so announcement/footer chrome and Tailwind `text-inverse` CTAs are not forced to primary green.
 
 ## Components
 
-### Announcement (`.sc-announcement`)
-Full-bleed primary bar. Text from Customizer → Still Cup chrome → Announcement bar (`still_cup_announcement` theme mod).
+### Announcement
+Full-bleed primary bar. Text from Customizer → Still Cup chrome → Announcement bar.
 
-### Header (`.sc-header`)
-- Wordmark → home
-- Desktop (≥1024): primary nav (Shop all, Mugs, Cups, Tumblers), Search / Account / Bag
-- Mobile (<1024): Menu toggle, centred wordmark, Bag; search/account in panel or utilities as styled
-- Inner pages (`body.sc-has-header-rule`): 1px border under header inner (Pencil nav divider)
+### Header
+Utilities on `header.php`. Inner uses hook class `sc-header-inner` for `body.sc-has-header-rule` bottom border. Desktop nav via `still_cup_render_primary_nav( 'desktop' )`; mobile via `'mobile'`.
 
-### Mobile nav (`.sc-mobile-nav`)
-Dialog panel; open/close buttons; Escape + backdrop click; focus trap; focus returns to Menu. Script: `assets/js/navigation.js`.
+### Mobile nav / search
+IDs unchanged for `navigation.js`: `sc-menu-open`, `sc-menu-close`, `sc-mobile-nav`, `sc-search-open`, `sc-search-close`, `sc-search-panel`, `sc-search-field`. Body gets `sc-menu-open` while open.
 
-### Search (`.sc-search`)
-Toggle panel; GET `/?s=`; Close control.
-
-### Footer (`.sc-footer`)
-Primary band; brand; placeholder links (Our story, Care, Shipping & returns, Contact, Privacy, Terms); copyright line. Override with Footer menu location when assigned.
-
-## Classes cheat-sheet
-
-`sc-announcement`, `sc-header`, `sc-nav`, `sc-mobile-nav`, `sc-search`, `sc-footer`, `sc-shell`, `sc-main`, `sc-skip-link`
+### Footer
+Utilities on `footer.php`; footer menu links get classes via `still_cup_link_class`.

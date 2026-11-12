@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'STILL_CUP_VERSION', '0.2.3' );
+define( 'STILL_CUP_VERSION', '0.4.2' );
 define( 'STILL_CUP_DIR', get_template_directory() );
 define( 'STILL_CUP_URI', get_template_directory_uri() );
 
@@ -50,16 +50,9 @@ function still_cup_enqueue_assets(): void {
 	);
 
 	wp_enqueue_style(
-		'still-cup-main',
-		STILL_CUP_URI . '/assets/css/main.css',
+		'still-cup-app',
+		STILL_CUP_URI . '/assets/css/app.css',
 		array( 'still-cup-fonts' ),
-		STILL_CUP_VERSION
-	);
-
-	wp_enqueue_style(
-		'still-cup-templates',
-		STILL_CUP_URI . '/assets/css/templates.css',
-		array( 'still-cup-main' ),
 		STILL_CUP_VERSION
 	);
 
@@ -169,29 +162,70 @@ function still_cup_default_nav_items(): array {
 }
 
 /**
+ * Tailwind class strings for primary navigation (full literals so the Tailwind scanner sees them).
+ *
+ * @param string $variant 'desktop' or 'mobile'.
+ * @return array{list: string, item: string, link: string}
+ */
+function still_cup_nav_classes( string $variant ): array {
+	if ( 'mobile' === $variant ) {
+		return array(
+			'list' => 'm-0 p-0 list-none',
+			'item' => '',
+			'link' => 'flex items-center min-h-touch text-[18px] no-underline border-b border-border',
+		);
+	}
+
+	return array(
+		'list' => 'm-0 p-0 list-none flex flex-wrap gap-6',
+		'item' => '',
+		'link' => 'inline-flex items-center min-h-touch text-[15px] no-underline',
+	);
+}
+
+/**
+ * Add Tailwind classes to menu links when wp_nav_menu() is called with `still_cup_link_class`.
+ *
+ * @param array<string, string> $atts Link attributes.
+ * @param WP_Post               $item Menu item.
+ * @param stdClass              $args wp_nav_menu() arguments.
+ * @return array<string, string>
+ */
+function still_cup_nav_menu_link_attributes( array $atts, $item, $args ): array {
+	if ( ! empty( $args->still_cup_link_class ) ) {
+		$atts['class'] = trim( ( $atts['class'] ?? '' ) . ' ' . $args->still_cup_link_class );
+	}
+	return $atts;
+}
+add_filter( 'nav_menu_link_attributes', 'still_cup_nav_menu_link_attributes', 10, 3 );
+
+/**
  * Render primary navigation links.
  *
- * @param string $class_prefix BEM-ish class prefix for list items.
+ * @param string $variant 'desktop' or 'mobile' — selects the Tailwind class set.
  */
-function still_cup_render_primary_nav( string $class_prefix = 'sc-nav' ): void {
+function still_cup_render_primary_nav( string $variant = 'desktop' ): void {
+	$classes = still_cup_nav_classes( $variant );
+
 	if ( has_nav_menu( 'primary' ) ) {
 		wp_nav_menu(
 			array(
-				'theme_location' => 'primary',
-				'container'      => false,
-				'menu_class'     => $class_prefix . '__list',
-				'fallback_cb'    => false,
-				'depth'          => 1,
+				'theme_location'       => 'primary',
+				'container'            => false,
+				'menu_class'           => $classes['list'],
+				'fallback_cb'          => false,
+				'depth'                => 1,
+				'still_cup_link_class' => $classes['link'],
 			)
 		);
 		return;
 	}
 
-	echo '<ul class="' . esc_attr( $class_prefix . '__list' ) . '">';
+	echo '<ul class="' . esc_attr( $classes['list'] ) . '">';
 	foreach ( still_cup_default_nav_items() as $item ) {
 		printf(
-			'<li class="%1$s__item"><a class="%1$s__link" href="%2$s">%3$s</a></li>',
-			esc_attr( $class_prefix ),
+			'<li><a class="%1$s" href="%2$s">%3$s</a></li>',
+			esc_attr( $classes['link'] ),
 			esc_url( $item['url'] ),
 			esc_html( $item['label'] )
 		);

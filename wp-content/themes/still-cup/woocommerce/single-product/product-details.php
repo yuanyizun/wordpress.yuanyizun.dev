@@ -18,14 +18,14 @@ if ( empty( $rows ) ) {
 	return;
 }
 ?>
-<div class="sc-product-details" data-sc-product-details>
+<div class="mt-6 border-t border-border" data-sc-product-details>
 	<?php foreach ( $rows as $index => $row ) : ?>
-		<details class="sc-product-details__row" <?php echo $index === 0 ? 'open' : ''; ?>>
-			<summary class="sc-product-details__summary">
-				<span class="sc-product-details__label"><?php echo esc_html( $row['label'] ); ?></span>
-				<span class="sc-product-details__value"><?php echo esc_html( $row['value'] ); ?></span>
+		<details class="sc-details-row border-b border-border py-[0.85rem] desktop:py-[0.9rem]" <?php echo $index === 0 ? 'open' : ''; ?>>
+			<summary class="sc-details-summary grid grid-cols-1 gap-[0.35rem] desktop:grid-cols-[350px_1fr] desktop:items-baseline desktop:gap-4 list-none cursor-pointer desktop:cursor-default">
+				<span class="font-display text-[18px]"><?php echo esc_html( $row['label'] ); ?></span>
+				<span class="sc-details-value text-[15px] leading-[1.4]"><?php echo esc_html( $row['value'] ); ?></span>
 			</summary>
-			<p class="sc-product-details__panel"><?php echo esc_html( $row['value'] ); ?></p>
+			<p class="sc-details-panel hidden m-0 mt-2 text-[15px]"><?php echo esc_html( $row['value'] ); ?></p>
 		</details>
 	<?php endforeach; ?>
 </div>

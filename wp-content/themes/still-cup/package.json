@@ -1,0 +1,14 @@
+{
+  "name": "still-cup-theme",
+  "private": true,
+  "version": "0.4.2",
+  "description": "Still Cup WordPress theme front-end build (Tailwind CSS)",
+  "scripts": {
+    "build": "tailwindcss -i ./assets/src/css/app.css -o ./assets/css/app.css --minify",
+    "watch": "tailwindcss -i ./assets/src/css/app.css -o ./assets/css/app.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "tailwindcss": "^4.3.5"
+  }
+}

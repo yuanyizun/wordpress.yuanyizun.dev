@@ -13,7 +13,7 @@ if ( $total < 1 ) {
 	return;
 }
 ?>
-<p class="woocommerce-result-count sc-shop-count">
+<p class="woocommerce-result-count m-0 mb-6 text-[14px]">
 	<?php
 	echo esc_html(
 		sprintf(
