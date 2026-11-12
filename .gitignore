@@ -1,0 +1,29 @@
+# Secrets & environment
+wp-config.php
+wp-config-local.php
+.env
+.env.*
+*.pem
+*.key
+
+# WordPress runtime
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/backup*/
+wp-content/debug.log
+debug.log
+
+# Dependencies & tooling
+node_modules/
+vendor/
+.npm/
+.wp-cli/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+*.log

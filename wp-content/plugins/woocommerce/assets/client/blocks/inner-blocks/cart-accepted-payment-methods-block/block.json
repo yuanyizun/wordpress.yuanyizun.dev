@@ -1,0 +1,19 @@
+{
+	"name": "woocommerce/cart-accepted-payment-methods-block",
+	"title": "Accepted Payment Methods",
+	"description": "Display accepted payment methods.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"inserter": true
+	},
+	"parent": [
+		"woocommerce/cart-totals-block"
+	],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3
+}

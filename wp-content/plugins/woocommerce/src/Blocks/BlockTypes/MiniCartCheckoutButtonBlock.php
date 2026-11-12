@@ -1,0 +1,47 @@
+<?php
+namespace Automattic\WooCommerce\Blocks\BlockTypes;
+
+/**
+ * MiniCartCheckoutButtonBlock class.
+ */
+class MiniCartCheckoutButtonBlock extends AbstractInnerBlock {
+	/**
+	 * Block name.
+	 *
+	 * @var string
+	 */
+	protected $block_name = 'mini-cart-checkout-button-block';
+
+	/**
+	 * Render the markup for the Mini-Cart Contents block.
+	 *
+	 * @param array     $attributes Block attributes.
+	 * @param string    $content    Block content.
+	 * @param \WP_Block $block      Block instance.
+	 * @return string Rendered block type output.
+	 */
+	protected function render( $attributes, $content, $block ) {
+		$default_checkout_text = __( 'Checkout', 'woocommerce' );
+		$checkout_text         = $attributes['checkoutButtonLabel'] ? $attributes['checkoutButtonLabel'] : $default_checkout_text;
+		$checkout_page_id      = wc_get_page_id( 'checkout' );
+		$checkout_page_url     = get_permalink( $checkout_page_id );
+		$wrapper_attributes    = get_block_wrapper_attributes(
+			array(
+				'href'                        => esc_url( $checkout_page_url ),
+				'class'                       => 'wc-block-components-button wp-element-button wc-block-mini-cart__footer-checkout',
+				'data-wp-bind--aria-disabled' => 'woocommerce/mini-cart::state.isCartUpdating',
+				'data-wp-on--click'           => 'woocommerce/mini-cart::actions.preventCheckoutWhileUpdating',
+			)
+		);
+
+		ob_start();
+		?>
+		<a <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+			<div class="wc-block-components-button__text">
+				<?php echo esc_html( $checkout_text ); ?>
+			</div>
+		</a>
+		<?php
+		return (string) ob_get_clean();
+	}
+}

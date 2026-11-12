@@ -1,0 +1,60 @@
+{
+	"name": "woocommerce/category-title",
+	"title": "Product Category Title",
+	"description": "Displays the current category title and lets permitted users edit it.",
+	"category": "woocommerce",
+	"apiVersion": 3,
+	"textdomain": "woocommerce",
+	"attributes": {
+		"isLink": {
+			"type": "boolean",
+			"default": false
+		},
+		"level": {
+			"type": "number",
+			"default": 2
+		},
+		"linkTarget": {
+			"type": "string",
+			"default": "_self"
+		},
+		"rel": {
+			"type": "string",
+			"default": ""
+		},
+		"textAlign": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"align": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"gradients": true,
+			"link": true
+		},
+		"html": false,
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontWeight": true,
+			"__experimentalFontStyle": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true,
+			"__experimentalLetterSpacing": true
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true
+		}
+	},
+	"usesContext": [ "termId", "termTaxonomy", "taxonomy" ]
+}

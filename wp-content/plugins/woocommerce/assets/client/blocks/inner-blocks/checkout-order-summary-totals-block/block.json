@@ -1,0 +1,32 @@
+{
+	"name": "woocommerce/checkout-order-summary-totals-block",
+	"title": "Totals",
+	"description": "Shows the subtotal, fees, discounts, shipping and taxes.",
+	"category": "woocommerce",
+	"supports": {
+		"align": false,
+		"html": false,
+		"multiple": false,
+		"reusable": false,
+		"lock": false
+	},
+	"attributes": {
+		"className": {
+			"type": "string",
+			"default": ""
+		},
+		"lock": {
+			"type": "object",
+			"default": {
+				"remove": true,
+				"move": false
+			}
+		}
+	},
+	"parent": [
+		"woocommerce/checkout-order-summary-block"
+	],
+	"textdomain": "woocommerce",
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3
+}

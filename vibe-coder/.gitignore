@@ -1,0 +1,11 @@
+# Keep Still Cup handover docs and UI notes in this project repo.
+resource/keys/*
+!resource/keys/.gitkeep
+!resource/keys/*.example
+
+.update/
+skills
+node_modules/
+
+# OS
+.DS_Store

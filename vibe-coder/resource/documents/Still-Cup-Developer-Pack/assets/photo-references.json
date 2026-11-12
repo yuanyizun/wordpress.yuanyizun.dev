@@ -1,0 +1,25 @@
+{
+  "status": "External mood references; original photos are not included.",
+  "photos": [
+    {
+      "use": "Hero",
+      "author": "Chanhee Lee",
+      "url": "https://images.unsplash.com/photo-1608719509659-2741cdefd746"
+    },
+    {
+      "use": "Everyday Mug",
+      "author": "Agata Smok",
+      "url": "https://images.unsplash.com/photo-1646040282358-101a43e5f97e"
+    },
+    {
+      "use": "Slow Morning Cup",
+      "author": "Kushali Bhagat",
+      "url": "https://images.unsplash.com/photo-1760764541302-e3955fbc6b2b"
+    },
+    {
+      "use": "Studio Tumbler",
+      "author": "Tom Crew",
+      "url": "https://images.unsplash.com/photo-1580485978320-cc2bc7dcf569"
+    }
+  ]
+}

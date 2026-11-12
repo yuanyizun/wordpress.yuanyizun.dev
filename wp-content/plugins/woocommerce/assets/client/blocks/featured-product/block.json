@@ -1,0 +1,135 @@
+{
+	"name": "woocommerce/featured-product",
+	"title": "Featured Product",
+	"description": "Highlight a product or variation.",
+	"category": "woocommerce",
+	"keywords": [ "WooCommerce" ],
+	"supports": {
+		"interactivity": {
+			"clientNavigation": true
+		},
+		"align": [ "wide", "full" ],
+		"ariaLabel": true,
+		"html": false,
+		"filter": {
+			"duotone": true
+		},
+		"color": {
+			"background": true,
+			"text": true,
+			"gradients": true,
+			"link": true,
+			"enableContrastChecker": false
+		},
+		"spacing": {
+			"padding": true,
+			"margin": [ "top", "bottom" ],
+			"blockGap": true,
+			"__experimentalDefaultControls": {
+				"padding": true,
+				"blockGap": true
+			}
+		},
+		"__experimentalBorder": {
+			"color": true,
+			"radius": true,
+			"style": true,
+			"width": true,
+			"__experimentalDefaultControls": {
+				"color": true,
+				"radius": true,
+				"style": true,
+				"width": true
+			}
+		},
+		"multiple": true,
+		"anchor": true,
+		"shadow": true,
+		"typography": {
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true
+		},
+		"dimensions": {
+			"aspectRatio": true,
+			"minHeight": true
+		},
+		"allowedBlocks": true
+	},
+	"attributes": {
+		"verticalAlignment": {
+			"type": "string",
+			"enum": [ "top", "center", "bottom" ]
+		},
+		"alt": {
+			"type": "string",
+			"default": ""
+		},
+		"contentAlign": {
+			"type": "string",
+			"default": "center"
+		},
+		"dimRatio": {
+			"type": "number",
+			"default": 50
+		},
+		"focalPoint": {
+			"type": "object",
+			"default": {
+				"x": 0.5,
+				"y": 0.5
+			}
+		},
+		"imageFit": {
+			"type": "string",
+			"default": "none"
+		},
+		"hasParallax": {
+			"type": "boolean",
+			"default": false
+		},
+		"isRepeated": {
+			"type": "boolean",
+			"default": false
+		},
+		"mediaId": {
+			"type": "number",
+			"default": 0
+		},
+		"mediaSrc": {
+			"type": "string",
+			"default": ""
+		},
+		"minHeight": {
+			"type": "number"
+		},
+		"linkText": {
+			"type": "string",
+			"default": "Shop now"
+		},
+		"overlayColor": {
+			"type": "string",
+			"default": "#000000"
+		},
+		"overlayGradient": {
+			"type": "string"
+		},
+		"productId": {
+			"type": "number"
+		},
+		"previewProduct": {
+			"type": "object",
+			"default": null
+		},
+		"anchor": {
+			"type": "string"
+		}
+	},
+	"selectors": {
+		"filter": {
+			"duotone": ".wp-block-woocommerce-featured-product .wc-block-featured-product__background-image"
+		}
+	},
+	"textdomain": "woocommerce",
+	"apiVersion": 3,
+	"$schema": "https://schemas.wp.org/trunk/block.json"
+}

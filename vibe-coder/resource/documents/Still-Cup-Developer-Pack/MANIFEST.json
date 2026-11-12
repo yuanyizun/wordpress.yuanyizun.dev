@@ -1,0 +1,17 @@
+{
+  "algorithm": "SHA-256",
+  "files": {
+    "README.md": "05d4fa41b7d91533a9378c55254c2e11c2a112ee5d9a269bcd67f305d1258720",
+    "acceptance.md": "c6b9847eb438eb276236b5128bfa251ba852dceef7e504fc27dfe54d1f67d38c",
+    "assets/asset-register.md": "4e355616c41534544ce4147c3adb30db22363b6949e245823b3a0af7e58e7a68",
+    "assets/photo-references.json": "d4e32eab9e8d925ab2028aecd89bddd670230c91191d79ff09808c756efe7af5",
+    "decisions.md": "2e75516b288076cc9d175e557b60527680a1826c49efa8f75b8d0247968084b4",
+    "delivery.md": "5dc52fb9ad8192d49550be452ee4130f829d8aa206c4946f7549795a7b3faaf4",
+    "design/HANDOFF.md": "21a1144c6b40a3cf6da3f9c71cf226b5c34bf158b1529cfb3cec75d99a9e6155",
+    "design/SOURCE-STATUS.md": "8b13addde7a80d405cc4bbc139328bfedbc7275814bc558d407d3ad6eef91c9b",
+    "design/index.html": "f5e792dae86651a0668c234d46c929a252d20f9cb7ff1d625731020b8a8d0317",
+    "design/source/Still-Cup-Design.pen": "b0f564e8c5ad2b9521b7f0e823ba6a2564f61a91aeb8322b6f8fcb2486ad0033",
+    "requirements.md": "a646807ceb03215bd8a2644ecb93d099d68e8c7a4b594181c96c2338cd15f7f3",
+    "specs.md": "9892933042d0358610ea8990469c3ccd3b5cc08c7cb8b7705f00e6651068e319"
+  }
+}

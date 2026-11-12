@@ -1,0 +1,64 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.7/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"color": {
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"palette": [
+				{ "slug": "page", "name": "Page background", "color": "#F6F2EB" },
+				{ "slug": "primary", "name": "Primary", "color": "#243A31" },
+				{ "slug": "surface", "name": "Surface", "color": "#FFFFFF" },
+				{ "slug": "hero", "name": "Hero", "color": "#E9E0D3" },
+				{ "slug": "story", "name": "Story", "color": "#DDE2D7" },
+				{ "slug": "border", "name": "Border", "color": "#CFCFC4" },
+				{ "slug": "summary", "name": "Order summary", "color": "#E9E8DF" },
+				{ "slug": "muted", "name": "Muted", "color": "#59645D" },
+				{ "slug": "sand", "name": "Sand", "color": "#CBB89E" },
+				{ "slug": "olive", "name": "Olive", "color": "#7F8D70" },
+				{ "slug": "chalk", "name": "Chalk", "color": "#E5E0D7" }
+			]
+		},
+		"typography": {
+			"fontFamilies": [
+				{
+					"fontFamily": "\"Newsreader\", \"Times New Roman\", serif",
+					"name": "Newsreader",
+					"slug": "newsreader"
+				},
+				{
+					"fontFamily": "\"Inter\", system-ui, sans-serif",
+					"name": "Inter",
+					"slug": "inter"
+				}
+			]
+		},
+		"layout": {
+			"contentSize": "1312px",
+			"wideSize": "1440px"
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "var(--wp--preset--color--page)",
+			"text": "var(--wp--preset--color--primary)"
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--inter)",
+			"lineHeight": "1.5"
+		},
+		"elements": {
+			"heading": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--newsreader)"
+				}
+			},
+			"link": {
+				"color": {
+					"text": "var(--wp--preset--color--primary)"
+				}
+			}
+		}
+	}
+}
