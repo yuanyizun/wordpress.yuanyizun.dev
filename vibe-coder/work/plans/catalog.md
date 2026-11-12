@@ -4,3 +4,4 @@
 |----|-------|--------|------|---------|
 | feature-001 | Set up WordPress site for Still Cup | done | [plan](./feature-001.md) | 2026-11-12T20:41:50 |
 | feature-002 | Still Cup theme foundation — design tokens and site chrome | done | [plan](./feature-002.md) | 2026-11-12T20:52:45 |
+| feature-003 | Still Cup page templates — Home, Shop, Product, Bag, Checkout | done | [plan](./feature-003.md) | 2026-11-12T21:05:55 |

@@ -11,7 +11,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'STILL_CUP_VERSION', '0.1.0' );
+define( 'STILL_CUP_VERSION', '0.2.0' );
+define( 'STILL_CUP_DIR', get_template_directory() );
+define( 'STILL_CUP_URI', get_template_directory_uri() );
+
+require_once STILL_CUP_DIR . '/inc/customizer-home.php';
+require_once STILL_CUP_DIR . '/inc/woocommerce.php';
 
 /**
  * Theme setup.
@@ -20,8 +25,9 @@ function still_cup_setup(): void {
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script' ) );
-	add_theme_support( 'woocommerce' );
 	add_theme_support( 'editor-styles' );
+	add_theme_support( 'align-wide' );
+	add_theme_support( 'responsive-embeds' );
 
 	register_nav_menus(
 		array(
@@ -45,14 +51,21 @@ function still_cup_enqueue_assets(): void {
 
 	wp_enqueue_style(
 		'still-cup-main',
-		get_template_directory_uri() . '/assets/css/main.css',
+		STILL_CUP_URI . '/assets/css/main.css',
 		array( 'still-cup-fonts' ),
+		STILL_CUP_VERSION
+	);
+
+	wp_enqueue_style(
+		'still-cup-templates',
+		STILL_CUP_URI . '/assets/css/templates.css',
+		array( 'still-cup-main' ),
 		STILL_CUP_VERSION
 	);
 
 	wp_enqueue_script(
 		'still-cup-navigation',
-		get_template_directory_uri() . '/assets/js/navigation.js',
+		STILL_CUP_URI . '/assets/js/navigation.js',
 		array(),
 		STILL_CUP_VERSION,
 		array(
@@ -60,11 +73,24 @@ function still_cup_enqueue_assets(): void {
 			'in_footer' => true,
 		)
 	);
+
+	if ( function_exists( 'is_product' ) && is_product() ) {
+		wp_enqueue_script(
+			'still-cup-product',
+			STILL_CUP_URI . '/assets/js/product.js',
+			array( 'jquery' ),
+			STILL_CUP_VERSION,
+			array(
+				'strategy'  => 'defer',
+				'in_footer' => true,
+			)
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'still_cup_enqueue_assets' );
 
 /**
- * Announcement bar text (theme mod; editable later from Customizer).
+ * Announcement bar text (theme mod).
  */
 function still_cup_announcement_text(): string {
 	$default = __( 'Free standard shipping on orders $100+ · Australia only', 'still-cup' );
@@ -199,7 +225,7 @@ function still_cup_account_url(): string {
 }
 
 /**
- * Default footer link placeholders (pages may not exist yet).
+ * Default footer link placeholders.
  *
  * @return array<int, array{label: string, path: string}>
  */
@@ -212,4 +238,11 @@ function still_cup_footer_links(): array {
 		array( 'label' => __( 'Privacy', 'still-cup' ), 'path' => '/privacy/' ),
 		array( 'label' => __( 'Terms', 'still-cup' ), 'path' => '/terms/' ),
 	);
+}
+
+/**
+ * Shop URL helper.
+ */
+function still_cup_shop_url(): string {
+	return function_exists( 'wc_get_page_permalink' ) ? (string) wc_get_page_permalink( 'shop' ) : home_url( '/shop/' );
 }
